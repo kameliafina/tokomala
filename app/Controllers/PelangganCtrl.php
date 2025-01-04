@@ -100,12 +100,37 @@ class PelangganCtrl extends BaseController
 
     // Menampilkan isi keranjang
     public function keranjang()
-    {
-        $userId = session()->get('user_id');
-        $keranjang = $this->keranjangModel->getKeranjangByUser($userId);
+{
+    // Ambil data keranjang dari model
+    $keranjangModel = new KeranjangModel();
+    $keranjang = $keranjangModel->findAll();
 
-        return view('pelanggan/keranjang', ['keranjang' => $keranjang]);
+    // Inisialisasi total harga
+    $totalHarga = 0;
+
+    // Ambil model barang
+    $barangModel = new BarangModel();
+
+    // Iterasi untuk menghitung total harga dan menambahkan foto barang ke data keranjang
+    foreach ($keranjang as &$item) {
+        // Ambil harga barang berdasarkan ID
+        $barang = $barangModel->find($item['kd_barang']);
+        if ($barang) {
+            $totalHarga += $barang['harga_barang'] * $item['jumlah']; // Total harga = harga barang * jumlah
+            $item['foto'] = $barang['foto'];  // Menambahkan foto barang ke item
+            $item['nama_barang'] = $barang['nama_barang'];  // Menambahkan foto barang ke item
+            $item['harga_barang'] = $barang['harga_barang'];  // Menambahkan foto barang ke item
+        }
     }
+
+    // Pass data keranjang dan total harga ke view
+    return view('pelanggan/keranjang', [
+        'keranjang' => $keranjang,
+        'totalHarga' => $totalHarga
+    ]);
+}
+
+
 
     // Menghapus barang dari keranjang
     public function hapusKeranjang($id)

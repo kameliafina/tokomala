@@ -44,3 +44,10 @@
         <?php endif; ?>
     </tbody>
 </table>
+
+<!-- Menampilkan total harga -->
+<?php if (!empty($keranjang)) : ?>
+    <div class="mt-3">
+        <h3>Total Harga: Rp <?= number_format($totalHarga, 0, ',', '.') ?></h3>
+    </div>
+<?php endif; ?>
