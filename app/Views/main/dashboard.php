@@ -1,3 +1,8 @@
+
+
+
+<!-- BATAS LAYOUT DUA -->
+ 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -85,7 +90,7 @@
       <div class="offcanvas-body">
         <div class="order-md-last">
           <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-primary">keranjang</span>
+            <span class="text-primary">Keranjang</span>
             <span class="badge bg-primary rounded-pill">3</span>
           </h4>
           <ul class="list-group mb-3">
@@ -144,7 +149,7 @@
           
           <div class="col-sm-4 col-lg-3 text-center text-sm-start">
             <div class="main-logo">
-              <a href="<?php echo base_url('pelangganctrl/index') ?>">
+              <a href="index.html">
                 <img src="<?php echo base_url('asset-pelanggan') ?>/images/logo2.png" alt="logo" class="img-fluid">
               </a>
             </div>
@@ -179,29 +184,17 @@
 
             <ul class="d-flex justify-content-end list-unstyled m-0">
             <li class="nav-item dropdown">
-    <?php if (session()->has('user_id')): ?>
-        <a class="nav-link dropdown-toggle rounded-circle bg-light p-2 mx-1" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <li><a class="dropdown-item" href="<?= site_url('/pelangganctrl/profile') ?>">Profil</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="<?= site_url('/loginctrl/logout') ?>">Logout</a></li>
-        </ul>
-    <?php else: ?>
-        <a class="nav-link dropdown-toggle rounded-circle bg-light p-2 mx-1" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <li><a class="dropdown-item" href="<?= site_url('/login') ?>">Login</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="<?= site_url('/register') ?>">Buat Akun</a></li>
-        </ul>
-    <?php endif; ?>
-</li>
-
+                <a class="nav-link dropdown-toggle rounded-circle bg-light p-2 mx-1" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="login">Login</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="register">Buat Akun</a></li>
+                </ul>
+            </li>
               <li>
-                <a href="<?= site_url('pelangganctrl/lihatkeranjang') ?>" class="rounded-circle bg-light p-2 mx-1">
+              <a href="<?= site_url('pelangganctrl/lihatkeranjang') ?>" class="rounded-circle bg-light p-2 mx-1">
                   <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#heart"></use></svg>
                 </a>
               </li>
@@ -278,94 +271,101 @@
         </div>
       </div>
     </header>
-
-
-    <section class="py-3">
-      <div class="container-fluid">
-        
-        <div class="row">
-          <div class="col-md-12">
-
-            <div class="bootstrap-tabs product-tabs">
-              <div class="tabs-header d-flex justify-content-center border-bottom my-5">
-                <h3>
-                    <?= $this->renderSection('judul') ?>    
-                </h3>
-              </div>
-              
-              <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
-
-                  <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-                  
-                  <?= $this->renderSection('isi') ?>    
-                    
-                  <!-- / product-grid -->
-                  
+    
+    <section class="py-3" style="background-image: url('<?php echo base_url('asset-pelanggan') ?>/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="banner-blocks d-flex">
+          <!-- Kolom Kiri -->
+          <div class="banner-ad large bg-info block-1 col-lg-8 d-flex align-items-center">
+            <div class="swiper main-swiper w-100">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <div class="row banner-content p-5">
+                    <div class="content-wrapper col-md-7">
+                      <div class="categories my-3">New Arrived with 20% OFF</div>
+                      <h3 class="display-4">Drink Jar Pink Special For You</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim massa diam elementum.</p>
+                      <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 px-4 py-3 mt-3">Shop Now</a>
+                    </div>
+                    <div class="img-wrapper col-md-5">
+                      <img src="<?php echo base_url('asset-pelanggan') ?>/images/pro1.png" class="img-fluid">
+                    </div>
+                  </div>
                 </div>
-                
+                <div class="swiper-slide">
+                  <div class="row banner-content p-5">
+                    <div class="content-wrapper col-md-7">
+                      <div class="categories mb-3 pb-3">New Arrived with 20% OFF</div>
+                      <h3 class="banner-title">Cute Bear Saving Box</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim massa diam elementum.</p>
+                      <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">Shop Collection</a>
+                    </div>
+                    <div class="img-wrapper col-md-5">
+                      <img src="<?php echo base_url('asset-pelanggan') ?>/images/pro2.png" class="img-fluid">
+                    </div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="row banner-content p-5">
+                    <div class="content-wrapper col-md-7">
+                      <div class="categories mb-3 pb-3">New Arrived with 20% OFF</div>
+                      <h3 class="banner-title">Blue Melody Shopping Basket</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim massa diam elementum.</p>
+                      <a href="#" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">Shop Collection</a>
+                    </div>
+                    <div class="img-wrapper col-md-5">
+                      <img src="<?php echo base_url('asset-pelanggan') ?>/images/pro3.png" class="img-fluid">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <!-- Kolom Kanan -->
+          <div class="col-lg-4 d-flex flex-column gap-4">
+            <div class="banner-ad bg-success-subtle block-2" style="background:url('<?php echo base_url('asset-pelanggan') ?>/images/PRO5.png') no-repeat;background-position: right bottom">
+              <div class="banner-content p-4">
+                <div class="categories sale mb-3 pb-3">20% off</div>
+                <h3 class="banner-title">Fruits & Vegetables</h3>
+                <a href="#" class="d-flex align-items-center nav-link">Shop Collection <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
               </div>
             </div>
 
+            <div class="banner-ad bg-success-subtle block-3" style="background:url('<?php echo base_url('asset-pelanggan') ?>/images/PRO5.png') no-repeat;background-position: right bottom">
+              <div class="banner-content p-4">
+                <div class="categories sale mb-3 pb-3">20% off</div>
+                <h3 class="banner-title">Fruits & Vegetables</h3>
+                <a href="#" class="d-flex align-items-center nav-link">Shop Collection <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
+              </div>
+            </div>
+
+            <div class="banner-ad bg-danger block-4" style="background:url('<?php echo base_url('asset-pelanggan') ?>/images/pro6.png') no-repeat;background-position: right bottom; background-size: 50%;">
+              <div class="banner-content p-4">
+                <div class="categories sale mb-3 pb-3">15% off</div>
+                <h3 class="item-title">Baked Products</h3>
+                <a href="#" class="d-flex align-items-center nav-link">Shop Collection <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
+
 
     <section class="py-5 overflow-hidden">
-      
-        <div class="row">
-          <div class="col-md-12">
-
-            <div class="category-carousel swiper">
-              <div class="swiper-wrapper">
-                <a href="<?= site_url('/pelangganctrl/databarang')?>" class="nav-link category-item swiper-slide">
-                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/icon.png" alt="Category Thumbnail">
-                  <h3 class="category-title">kitchen</h3>
-                </a>
-                <a href="index.html" class="nav-link category-item swiper-slide">
-                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/icon2.png" alt="Category Thumbnail">
-                  <h3 class="category-title">furniture</h3>
-                </a>
-                <a href="<?= site_url('/pelangganctrl/kebersihan')?>" class="nav-link category-item swiper-slide">
-                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/pail.png" alt="Category Thumbnail">
-                  <h3 class="category-title">Peralatan Kebersihan</h3>
-                </a>
-                <a href="<?= site_url('/pelangganctrl/anak')?>" class="nav-link category-item swiper-slide">
-                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/children.png" alt="Category Thumbnail">
-                  <h3 class="category-title">Anak</h3>
-                </a>
-                <a href="index.html" class="nav-link category-item swiper-slide">
-                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/bath.png" alt="Category Thumbnail">
-                  <h3 class="category-title">Peralatan Kamar Mandi</h3>
-                </a>
-                <a href="index.html" class="nav-link category-item swiper-slide">
-                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/garden.png" alt="Category Thumbnail">
-                  <h3 class="category-title">Alat Berkebun</h3>
-                </a>
-                <a href="index.html" class="nav-link category-item swiper-slide">
-                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/tepak.png" alt="Category Thumbnail">
-                  <h3 class="category-title">Toples dan Tempat Makan</h3>
-                </a>
-                <a href="index.html" class="nav-link category-item swiper-slide">
-                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/box.png" alt="Category Thumbnail">
-                  <h3 class="category-title">Tempat Penyimpanan Barang</h3>
-                </a>
-              
-                
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
 
-            <div class="section-header d-flex flex-wrap justify-content-center mb-5">
+            <div class="section-header d-flex flex-wrap justify-content-between mb-5">
+              <h2 class="section-title">Category</h2>
 
               <div class="d-flex align-items-center">
                 <a href="#" class="btn-link text-decoration-none">View All Categories →</a>
@@ -378,6 +378,340 @@
             
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="category-carousel swiper">
+              <div class="swiper-wrapper">
+                <a href="<?= site_url('/pelangganctrl/databarang')?>" class="nav-link category-item swiper-slide">
+                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/icon.png" alt="Category Thumbnail">
+                  <h3 class="category-title">dapur</h3>
+                </a>
+                <a href="<?= site_url('/pelangganctrl/furniture')?>" class="nav-link category-item swiper-slide">
+                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/icon2.png" alt="Category Thumbnail">
+                  <h3 class="category-title">furniture</h3>
+                </a>
+                <a href="<?= site_url('/pelangganctrl/kebersihan')?>" class="nav-link category-item swiper-slide">
+                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/pail.png" alt="Category Thumbnail">
+                  <h3 class="category-title">Peralatan Kebersihan</h3>
+                </a>
+                <a href="<?= site_url('/pelangganctrl/anak')?>" class="nav-link category-item swiper-slide">
+                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/children.png" alt="Category Thumbnail">
+                  <h3 class="category-title">Anak</h3>
+                </a>
+                <a href="<?= site_url('/pelangganctrl/mandi')?>" class="nav-link category-item swiper-slide">
+                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/bath.png" alt="Category Thumbnail">
+                  <h3 class="category-title">Peralatan Kamar Mandi</h3>
+                </a>
+                
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5 overflow-hidden">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="section-header d-flex justify-content-between">
+              
+              <h2 class="section-title">Just arrived</h2>
+
+              <div class="d-flex align-items-center">
+                <a href="#" class="btn-link text-decoration-none">View All Categories →</a>
+                <div class="swiper-buttons">
+                  <button class="swiper-prev products-carousel-prev btn btn-primary">❮</button>
+                  <button class="swiper-next products-carousel-next btn btn-primary">❯</button>
+                </div>  
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="products-carousel swiper">
+              <div class="swiper-wrapper">
+                
+                <div class="product-item swiper-slide">
+                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                  <figure>
+                    <a href="index.html" title="Product Title">
+                      <img src="<?php echo base_url('asset-pelanggan') ?>/images/pro1.png"  class="tab-image">
+                    </a>
+                  </figure>
+                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
+                  <span class="price">$18.00</span>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="input-group product-qty">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                            </button>
+                        </span>
+                    </div>
+                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                  </div>
+                </div>
+
+                <div class="product-item swiper-slide">
+                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                  <figure>
+                    <a href="index.html" title="Product Title">
+                      <img src="<?php echo base_url('asset-pelanggan') ?>/images/pro2.png"  class="tab-image">
+                    </a>
+                  </figure>
+                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
+                  <span class="price">$18.00</span>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="input-group product-qty">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                            </button>
+                        </span>
+                    </div>
+                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                  </div>
+                </div>
+
+                <div class="product-item swiper-slide">
+                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                  <figure>
+                    <a href="index.html" title="Product Title">
+                      <img src="<?php echo base_url('asset-pelanggan') ?>/images/pro3.png"  class="tab-image">
+                    </a>
+                  </figure>
+                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
+                  <span class="price">$18.00</span>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="input-group product-qty">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                            </button>
+                        </span>
+                    </div>
+                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                  </div>
+                </div>
+
+                <div class="product-item swiper-slide">
+                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                  <figure>
+                    <a href="index.html" title="Product Title">
+                      <img src="<?php echo base_url('asset-pelanggan') ?>/images/pro4.png"  class="tab-image">
+                    </a>
+                  </figure>
+                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
+                  <span class="price">$18.00</span>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="input-group product-qty">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                            </button>
+                        </span>
+                    </div>
+                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                  </div>
+                </div>
+                <div class="product-item swiper-slide">
+                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                  <figure>
+                    <a href="index.html" title="Product Title">
+                      <img src="<?php echo base_url('asset-pelanggan') ?>/images/pro5.png"  class="tab-image">
+                    </a>
+                  </figure>
+                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
+                  <span class="price">$18.00</span>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="input-group product-qty">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                            </button>
+                        </span>
+                    </div>
+                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                  </div>
+                </div>
+
+                <div class="product-item swiper-slide">
+                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                  <figure>
+                    <a href="index.html" title="Product Title">
+                      <img src="<?php echo base_url('asset-pelanggan') ?>/images/pro7.png"  class="tab-image">
+                    </a>
+                  </figure>
+                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
+                  <span class="price">$18.00</span>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="input-group product-qty">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                            </button>
+                        </span>
+                    </div>
+                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                  </div>
+                </div>
+
+                <div class="product-item swiper-slide">
+                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                  <figure>
+                    <a href="index.html" title="Product Title">
+                      <img src="<?php echo base_url('asset-pelanggan') ?>/images/pro8.png"  class="tab-image">
+                    </a>
+                  </figure>
+                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
+                  <span class="price">$18.00</span>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="input-group product-qty">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                            </button>
+                        </span>
+                    </div>
+                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                  </div>
+                </div>
+
+                <div class="product-item swiper-slide">
+                  <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
+                  <figure>
+                    <a href="index.html" title="Product Title">
+                      <img src="<?php echo base_url('asset-pelanggan') ?>/images/thumb-bananas.png"  class="tab-image">
+                    </a>
+                  </figure>
+                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
+                  <span class="price">$18.00</span>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="input-group product-qty">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
+                              <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                        <span class="input-group-btn">
+                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
+                                <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                            </button>
+                        </span>
+                    </div>
+                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            <!-- / products-carousel -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+    <section class="py-5">
+      <div class="container-fluid">
+        <div class="row">
+          
+          <div class="col-md-6">
+            <div class="banner-ad bg-danger mb-3" style="background: url('<?php echo base_url('asset-pelanggan') ?>/images/pro12.png');background-repeat: no-repeat;background-position: right bottom; background-size: 50%;">
+              <div class="banner-content p-5">
+
+                <div class="categories text-primary fs-3 fw-bold">Upto 25% Off</div>
+                <h3 class="banner-title">Luxa Dark Chocolate</h3>
+                <p>Very tasty & creamy vanilla flavour creamy muffins.</p>
+                <a href="#" class="btn btn-dark text-uppercase">Show Now</a>
+
+              </div>
+            
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="banner-ad bg-info" style="background: url('<?php echo base_url('asset-pelanggan') ?>/images/pro13.png');background-repeat: no-repeat;background-position: right bottom; background-size: 50%;">
+              <div class="banner-content p-5">
+
+                <div class="categories text-primary fs-3 fw-bold">Upto 25% Off</div>
+                <h3 class="banner-title">Creamy Muffins</h3>
+                <p>Very tasty & creamy vanilla flavour creamy muffins.</p>
+                <a href="#" class="btn btn-dark text-uppercase">Show Now</a>
+
+              </div>
+            
+            </div>
+          </div>
+             
+        </div>
+      </div>
+    </section>
+
+    
+            <!-- / products-carousel -->
+
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="py-5">
@@ -431,7 +765,7 @@
       </div>
     </section>
 
-   
+    
 
     
 
@@ -547,7 +881,7 @@
 
           <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="footer-menu">
-            <img src="<?php echo base_url('asset-pelanggan') ?>/images/logo2.png" alt="logo" class="img-fluid">
+              <img src="<?php echo base_url('asset-pelanggan') ?>/images/logo.png" alt="logo">
               <div class="social-links mt-5">
                 <ul class="d-flex list-unstyled gap-2">
                   <li>

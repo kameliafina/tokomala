@@ -22,6 +22,8 @@ $routes->get('adminctrl/user_view', 'AdminCtrl::user_view');
 
 
 $routes->get('pelangganctrl/index', 'PelangganCtrl::index');
+$routes->get('pelangganctrl/databarang', 'PelangganCtrl::databarang');
+$routes->get('pelangganctrl/profile', 'PelangganCtrl::profile');
 
 $routes->get('hash-passwords', 'SetupCtrl::hashPasswords');
 

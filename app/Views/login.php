@@ -21,3 +21,8 @@
         <?= session()->getFlashdata('error'); ?>
     </div>
 <?php endif; ?>
+
+<div class="d-flex justify-content-end">
+<a href="<?= site_url('home/tampil') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+<img src="<?php echo base_url('asset-pelanggan') ?>/images/back.png" alt="Category Thumbnail">Kembali</a>
+</div>

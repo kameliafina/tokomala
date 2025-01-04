@@ -3,18 +3,47 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\BarangModel;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class PelangganCtrl extends BaseController
 {
     public function index()
-{
-    // Hanya pelanggan yang dapat mengakses halaman ini
-    if (session()->get('role') != 'customer') {
-        return redirect()->to('/login');
-    }    
+    {
+        if (!session()->has('user_id')) {
+            return redirect()->to('/login')->with('error', 'Harap login terlebih dahulu.');
+        }
 
-    return view('main/layout3');
-}
+        return view('dashboard');
+    }
+
+    public function profile()
+    {
+        if (!session()->has('user_id')) {
+            return redirect()->to('/login')->with('error', 'Harap login terlebih dahulu.');
+        }
+
+        $userModel = new UserModel();
+        $user = $userModel->find(session('user_id'));
+
+        return view('pelanggan/profile', ['user' => $user]);
+    }
+
+public function databarang()
+    {
+        $barang = new BarangModel();
+        $ambil = $barang->findAll();
+
+        // var_dump($ambil);
+        // die();
+
+        $data = [
+            'databarang' => $ambil
+        ];
+        return view('pelanggan/dapur', $data);
+    }
+
+    
 
 }

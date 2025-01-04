@@ -239,7 +239,7 @@
               
                   <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
                     <li class="nav-item active">
-                      <a href="<?= site_url('/pelangganctrl/index')?>" class="nav-link">Home setelah login</a>
+                      <a href="<?= site_url('/pelangganctrl/index')?>" class="nav-link">Home sebagai pelanggan</a>
                     </li>
                     <li class="nav-item dropdown">
                       <a href="#men" class="nav-link">About us</a>
@@ -309,7 +309,7 @@
 
             <div class="category-carousel swiper">
               <div class="swiper-wrapper">
-                <a href="<?= site_url('/pelangganctrl/dapur')?>" class="nav-link category-item swiper-slide">
+                <a href="<?= site_url('/pelangganctrl/setelahlogin')?>" class="nav-link category-item swiper-slide">
                   <img src="<?php echo base_url('asset-pelanggan') ?>/images/icon.png" alt="Category Thumbnail">
                   <h3 class="category-title">kitchen</h3>
                 </a>
