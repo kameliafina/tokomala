@@ -23,8 +23,8 @@ PERALATAN DAPUR
                       
                         
                         <!-- button tambah keranjang -->
-                        <?php if (session()->get('isLoggedIn')) : ?>
-    <!-- Form tambah keranjang untuk pengguna yang sudah login -->
+                        <?php if (session()->has('user_id')) : ?>
+    <!-- Form tambah ke keranjang untuk pengguna yang sudah login -->
     <form action="<?= base_url('pelangganctrl/tambahkeranjang') ?>" method="post">
         <input type="hidden" name="kd_barang" id="kd_barang" value="<?= $barang['kd_barang'] ?>">
         <button type="submit" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></button>
@@ -33,6 +33,7 @@ PERALATAN DAPUR
     <!-- Tombol untuk pengguna yang belum login -->
     <a href="<?= base_url('/login') ?>" class="btn btn-warning">Login untuk menambah ke keranjang</a>
 <?php endif; ?>
+
 
                       </div>
                     </div>

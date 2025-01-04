@@ -24,6 +24,10 @@ $routes->get('adminctrl/user_view', 'AdminCtrl::user_view');
 $routes->get('pelangganctrl/index', 'PelangganCtrl::index');
 $routes->get('pelangganctrl/databarang', 'PelangganCtrl::databarang');
 $routes->get('pelangganctrl/profile', 'PelangganCtrl::profile');
+$routes->post('/pelangganctrl/tambahkeranjang', 'PelangganCtrl::tambahKeranjang');
+$routes->get('/pelangganctrl/keranjang', 'PelangganCtrl::keranjang');
+$routes->get('/pelangganctrl/hapuskeranjang/(:num)', 'PelangganCtrl::hapusKeranjang/$1');
+$routes->post('/pelangganctrl/ubahjumlah/(:segment)', 'PelangganCtrl::ubahjumlah/$1');
 
 $routes->get('hash-passwords', 'SetupCtrl::hashPasswords');
 
