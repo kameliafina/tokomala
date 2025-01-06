@@ -1,11 +1,11 @@
 <?= $this->extend('main/layout') ?>
 
 <?= $this->section('judul') ?>
-BARANG
+TAMBAH USER
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>
-Tambah Data Barang
+Tambah User
 
 <div class="d-flex justify-content-end">
     <a href="<?= site_url('adminctrl/user_view') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">

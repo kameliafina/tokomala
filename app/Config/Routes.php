@@ -19,6 +19,7 @@ $routes->get('adminctrl/addUserForm', 'AdminCtrl::addUserForm'); // Untuk menamp
 $routes->post('adminctrl/addUser', 'AdminCtrl::addUser'); // Untuk proses penambahan user
 $routes->get('adminctrl/list_user', 'AdminCtrl::list_user');
 $routes->get('adminctrl/user_view', 'AdminCtrl::user_view');
+$routes->get('adminctrl/histori_view', 'AdminCtrl::histori_view');
 
 
 $routes->get('pelangganctrl/index', 'PelangganCtrl::index');
@@ -26,6 +27,9 @@ $routes->get('pelangganctrl/databarang', 'PelangganCtrl::databarang');
 $routes->get('pelangganctrl/profile', 'PelangganCtrl::profile');
 $routes->post('/pelangganctrl/tambahkeranjang', 'PelangganCtrl::tambahKeranjang');
 $routes->get('/pelangganctrl/keranjang', 'PelangganCtrl::keranjang');
+$routes->get('/pelangganctrl/pembayaran', 'PelangganCtrl::pembayaran');
+$routes->get('/pelangganctrl/suksesPembayaran', 'PelangganCtrl::pembayaranSukses');
+$routes->post('/pelangganctrl/prosespembayaran', 'PelangganCtrl::prosespembayaran');
 $routes->get('/pelangganctrl/hapuskeranjang/(:num)', 'PelangganCtrl::hapusKeranjang/$1');
 $routes->post('/pelangganctrl/ubahjumlah/(:segment)', 'PelangganCtrl::ubahjumlah/$1');
 

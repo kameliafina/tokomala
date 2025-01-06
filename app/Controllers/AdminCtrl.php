@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\TransaksiModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -67,6 +68,25 @@ class AdminCtrl extends BaseController
             'datauser' => $ambil
         ];
         return view('list_user', $data);
+    }
+
+    public function histori_view()
+    {
+        return view('admin/historiview');
+    }
+
+    public function histori_list()
+    {
+        $transaksi = new TransaksiModel();
+        $ambil = $transaksi->findAll();
+
+        // var_dump($ambil);
+        // die();
+
+        $data = [
+            'datatransaksi' => $ambil
+        ];
+        return view('admin/histori_list', $data);
     }
 }
 

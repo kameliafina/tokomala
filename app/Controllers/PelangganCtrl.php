@@ -5,6 +5,10 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\BarangModel;
 use App\Models\KeranjangModel;
+use App\Models\PembayaranDetailModel;
+use App\Models\PengirimanModel;
+use App\Models\TransaksiDetailModel;
+use App\Models\TransaksiModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -33,10 +37,6 @@ class PelangganCtrl extends BaseController
 
     public function databarang()
     {
-        if (!session()->has('user_id')) {
-            return redirect()->to('/login')->with('error', 'Harap login terlebih dahulu.');
-        }
-    
         $barang = new BarangModel();
         $ambil = $barang->findAll();
     
@@ -171,7 +171,129 @@ class PelangganCtrl extends BaseController
     return redirect()->to('pelangganctrl/keranjang')->with('error', 'Barang tidak ditemukan.');
 }
 
+public function prosesPembayaran()
+{
+    // Ambil data dari form
+    $idPengiriman = $this->request->getPost('jasa_pengiriman');  // id dari pengiriman
+    $totalHargaBarang = $this->request->getPost('total_harga_barang');
+    $biayaPengiriman = $this->request->getPost('biaya_pengiriman');
+    $totalKeseluruhan = $totalHargaBarang + $biayaPengiriman;
+    $idPelanggan = session()->get('user_id'); // ID pelanggan yang login
 
+    // Mengambil file bukti
+    $fileBukti = $this->request->getFile('bukti');
+    $buktiName = '';
+    
+    // Cek apakah ada file yang diupload
+    if ($fileBukti && $fileBukti->isValid() && !$fileBukti->hasMoved()) {
+        // Berikan nama file yang unik
+        $buktiName = $fileBukti->getRandomName();
+        
+        // Pindahkan file ke folder yang diinginkan
+        $fileBukti->move(WRITEPATH . 'uploads', $buktiName);
+    }
+
+    // Verifikasi apakah id_pengiriman ada di tabel pengiriman
+    $pengirimanModel = new PengirimanModel();
+    $pengiriman = $pengirimanModel->find($idPengiriman);
+
+    if (!$pengiriman) {
+        return redirect()->back()->with('error', 'Jasa pengiriman tidak ditemukan.');
+    }
+
+    // Simpan data transaksi ke tabel transaksi
+    $transaksiModel = new TransaksiModel();
+    $dataTransaksi = [
+        'user_id' => $idPelanggan,  // menggunakan user_id sesuai dengan yang ada di tabel
+        'total_harga_barang' => $totalHargaBarang,
+        'biaya_pengiriman' => $biayaPengiriman,
+        'total_bayar' => $totalKeseluruhan,
+        'id_pengiriman' => $idPengiriman, // Menggunakan id dari tabel pengiriman
+        'bukti' => $buktiName,  // Menyimpan nama file bukti yang diupload
+        'status' => 'dikemas',   // Status otomatis 'dikemas'
+        'created_at' => date('Y-m-d H:i:s')
+    ];
+    $transaksiModel->save($dataTransaksi);
+
+    // Mendapatkan ID transaksi yang baru disimpan
+    $idTransaksi = $transaksiModel->getInsertID();
+
+    // Simpan detail keranjang ke tabel pembayaran_detail
+    $keranjangModel = new KeranjangModel();
+    $keranjang = $keranjangModel->where('user_id', $idPelanggan)->findAll();
+
+    $pembayaranDetailModel = new PembayaranDetailModel();
+    $barangModel = new BarangModel();
+    
+    foreach ($keranjang as $item) {
+        // Cek apakah barang ditemukan
+        $barang = $barangModel->find($item['kd_barang']);
+        
+        if ($barang) {
+            // Simpan detail pembayaran
+            $detailPembayaran = [
+                'id_pembayaran' => $idTransaksi,
+                'kd_barang' => $item['kd_barang'],
+                'jumlah' => $item['jumlah'],
+                'subtotal' => $barang['harga_barang'] * $item['jumlah'] // Pastikan harga_barang ada
+            ];
+            $pembayaranDetailModel->save($detailPembayaran);
+
+            // Mengurangi stok barang
+            $barangModel->update($barang['kd_barang'], [
+                'stok' => $barang['stok'] - $item['jumlah']
+            ]);
+        } else {
+            return redirect()->back()->with('error', 'Barang tidak ditemukan.');
+        }
+    }
+
+    // Hapus data keranjang setelah pembayaran berhasil
+    $keranjangModel->where('user_id', $idPelanggan)->delete();
+
+    return redirect()->to('/pelangganctrl/suksesPembayaran'); // Halaman sukses pembayaran
 }
 
 
+public function pembayaran()
+{
+    // Ambil data keranjang dari model
+    $keranjangModel = new KeranjangModel();
+    $keranjang = $keranjangModel->findAll();
+
+    // Inisialisasi total harga
+    $totalHarga = 0;
+
+    // Ambil model barang
+    $barangModel = new BarangModel();
+
+    // Iterasi untuk menghitung total harga dan menambahkan data barang ke data keranjang
+    foreach ($keranjang as &$item) {
+        // Ambil harga barang berdasarkan ID
+        $barang = $barangModel->find($item['kd_barang']);
+        if ($barang) {
+            $totalHarga += $barang['harga_barang'] * $item['jumlah']; // Total harga = harga barang * jumlah
+            $item['foto'] = $barang['foto'];  
+            $item['nama_barang'] = $barang['nama_barang'];  
+            $item['harga_barang'] = $barang['harga_barang'];  
+        }
+    }
+
+    // Ambil data jasa pengiriman
+    $pengirimanModel = new PengirimanModel();
+    $pengiriman = $pengirimanModel->findAll(); // Ambil semua jasa pengiriman
+
+    // Pass data keranjang, total harga, dan pengiriman ke view
+    return view('pelanggan/pembayaran', [
+        'keranjang' => $keranjang,
+        'totalHarga' => $totalHarga,
+        'pengiriman' => $pengiriman
+    ]);
+}
+
+public function pembayaranSukses()
+{
+    return view('pelanggan/sukses');
+}
+
+}

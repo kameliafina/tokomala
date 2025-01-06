@@ -1,7 +1,7 @@
 <?= $this->extend('main/layout') ?>
 
 <?= $this->section('judul') ?>
-DAFTAR USER
+PROSES TRANSAKSI
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>
@@ -13,8 +13,8 @@ DAFTAR USER
   <thead>
     <tr>
       <th scope="col">NO</th>
-      <th scope="col">Id</th>
-      <th scope="col">Email</th>
+      <th scope="col">Id Transaksi</th>
+      <th scope="col">Id User</th>
       <th scope="col">Role</th>
       <th scope="col">Dibuat</th>
       <th scope="col">Aksi</th>

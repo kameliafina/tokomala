@@ -85,7 +85,7 @@
                         <h6 class="collapse-header">Transaksi</h6>
                         <a class="collapse-item" href="<?= site_url('kasirctrl/databarang')?>">Kasir</a>
                         <a class="collapse-item" href="utilities-border.html">Laporan</a>
-                        <a class="collapse-item" href="<?= site_url('historictrl/index')?>">Histori</a>
+                        <a class="collapse-item" href="<?= site_url('adminctrl/histori_view')?>">Histori</a>
                     </div>
                 </div>
             </li>

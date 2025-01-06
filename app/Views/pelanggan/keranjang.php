@@ -51,3 +51,5 @@
         <h3>Total Harga: Rp <?= number_format($totalHarga, 0, ',', '.') ?></h3>
     </div>
 <?php endif; ?>
+
+<a href="<?= base_url('/pelangganctrl/pembayaran/') ?>" class="btn btn-danger">Bayar</a>
