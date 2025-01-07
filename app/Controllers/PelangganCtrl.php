@@ -174,84 +174,46 @@ class PelangganCtrl extends BaseController
 public function prosesPembayaran()
 {
     // Ambil data dari form
-    $idPengiriman = $this->request->getPost('jasa_pengiriman');  // id dari pengiriman
+    $idPengiriman = $this->request->getPost('jasa_pengiriman');
     $totalHargaBarang = $this->request->getPost('total_harga_barang');
     $biayaPengiriman = $this->request->getPost('biaya_pengiriman');
     $totalKeseluruhan = $totalHargaBarang + $biayaPengiriman;
-    $idPelanggan = session()->get('user_id'); // ID pelanggan yang login
+    $idPelanggan = session()->get('user_id');
 
-    // Mengambil file bukti
+    // Ambil file bukti
     $fileBukti = $this->request->getFile('bukti');
     $buktiName = '';
-    
-    // Cek apakah ada file yang diupload
+
+    // Validasi dan pindahkan file jika ada
     if ($fileBukti && $fileBukti->isValid() && !$fileBukti->hasMoved()) {
-        // Berikan nama file yang unik
         $buktiName = $fileBukti->getRandomName();
-        
-        // Pindahkan file ke folder yang diinginkan
-        $fileBukti->move(WRITEPATH . 'uploads', $buktiName);
+
+        // Pindahkan file ke folder public/upload
+        $fileBukti->move(FCPATH . 'upload', $buktiName);
+
+        // Debugging untuk memastikan file tersimpan
+        if (!file_exists(FCPATH . 'upload/' . $buktiName)) {
+            return redirect()->back()->with('error', 'File tidak tersimpan di folder public/upload.');
+        }
+    } else {
+        return redirect()->back()->with('error', 'Harap unggah bukti pembayaran yang valid.');
     }
 
-    // Verifikasi apakah id_pengiriman ada di tabel pengiriman
-    $pengirimanModel = new PengirimanModel();
-    $pengiriman = $pengirimanModel->find($idPengiriman);
-
-    if (!$pengiriman) {
-        return redirect()->back()->with('error', 'Jasa pengiriman tidak ditemukan.');
-    }
-
-    // Simpan data transaksi ke tabel transaksi
+    // Simpan data transaksi
     $transaksiModel = new TransaksiModel();
     $dataTransaksi = [
-        'user_id' => $idPelanggan,  // menggunakan user_id sesuai dengan yang ada di tabel
+        'user_id' => $idPelanggan,
         'total_harga_barang' => $totalHargaBarang,
         'biaya_pengiriman' => $biayaPengiriman,
         'total_bayar' => $totalKeseluruhan,
-        'id_pengiriman' => $idPengiriman, // Menggunakan id dari tabel pengiriman
-        'bukti' => $buktiName,  // Menyimpan nama file bukti yang diupload
-        'status' => 'dikemas',   // Status otomatis 'dikemas'
+        'id_pengiriman' => $idPengiriman,
+        'bukti' => $buktiName,
+        'status' => 'dikemas',
         'created_at' => date('Y-m-d H:i:s')
     ];
     $transaksiModel->save($dataTransaksi);
 
-    // Mendapatkan ID transaksi yang baru disimpan
-    $idTransaksi = $transaksiModel->getInsertID();
-
-    // Simpan detail keranjang ke tabel pembayaran_detail
-    $keranjangModel = new KeranjangModel();
-    $keranjang = $keranjangModel->where('user_id', $idPelanggan)->findAll();
-
-    $pembayaranDetailModel = new PembayaranDetailModel();
-    $barangModel = new BarangModel();
-    
-    foreach ($keranjang as $item) {
-        // Cek apakah barang ditemukan
-        $barang = $barangModel->find($item['kd_barang']);
-        
-        if ($barang) {
-            // Simpan detail pembayaran
-            $detailPembayaran = [
-                'id_pembayaran' => $idTransaksi,
-                'kd_barang' => $item['kd_barang'],
-                'jumlah' => $item['jumlah'],
-                'subtotal' => $barang['harga_barang'] * $item['jumlah'] // Pastikan harga_barang ada
-            ];
-            $pembayaranDetailModel->save($detailPembayaran);
-
-            // Mengurangi stok barang
-            $barangModel->update($barang['kd_barang'], [
-                'stok' => $barang['stok'] - $item['jumlah']
-            ]);
-        } else {
-            return redirect()->back()->with('error', 'Barang tidak ditemukan.');
-        }
-    }
-
-    // Hapus data keranjang setelah pembayaran berhasil
-    $keranjangModel->where('user_id', $idPelanggan)->delete();
-
-    return redirect()->to('/pelangganctrl/suksesPembayaran'); // Halaman sukses pembayaran
+    return redirect()->to('/pelangganctrl/suksesPembayaran');
 }
 
 

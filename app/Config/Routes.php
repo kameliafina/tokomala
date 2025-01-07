@@ -20,6 +20,14 @@ $routes->post('adminctrl/addUser', 'AdminCtrl::addUser'); // Untuk proses penamb
 $routes->get('adminctrl/list_user', 'AdminCtrl::list_user');
 $routes->get('adminctrl/user_view', 'AdminCtrl::user_view');
 $routes->get('adminctrl/histori_view', 'AdminCtrl::histori_view');
+$routes->get('adminctrl/histori_list', 'AdminCtrl::histori_list');
+$routes->get('adminctrl/histori_dikirim', 'AdminCtrl::histori_dikirim');
+$routes->get('adminctrl/laporan', 'AdminCtrl::laporan');
+$routes->get('adminctrl/laporan_dikemas', 'AdminCtrl::laporan_dikemas');
+$routes->get('adminctrl/laporan_dikirim', 'AdminCtrl::laporan_dikirim');
+$routes->get('adminctrl/print_laporan', 'AdminCtrl::print_laporan');
+$routes->get('adminctrl/print_laporan2', 'AdminCtrl::print_laporan2');
+$routes->put('/adminctrl/updateStatus/(:num)', 'AdminCtrl::updateStatus/$1');
 
 
 $routes->get('pelangganctrl/index', 'PelangganCtrl::index');

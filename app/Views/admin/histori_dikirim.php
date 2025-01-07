@@ -1,7 +1,7 @@
 <?= $this->extend('main/layout') ?>
 
 <?= $this->section('judul') ?>
-PROSES TRANSAKSI
+HISTORI BARANG DIKIRIM
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>
@@ -39,14 +39,7 @@ PROSES TRANSAKSI
       <td>
         <img src="<?= base_url('upload/' . $user['bukti']) ?>" alt="<?= $user['nama_pelanggan'] ?>" width="100" height="auto">
       </td>
-      <td>
-        <form action="<?= site_url('/adminctrl/updateStatus/' . $user['id']) ?>" method="post">
-        <input type="hidden" name="_method" value="PUT">
-        <button type="submit" class="btn btn-success btn-circle" <?= ($user['status'] == 'dikirim') ? 'disabled' : '' ?>>
-            <i class="fas fa-check"></i>
-        </button>
-    </form>
-  </td>
+      <td><?= $user['status']?></td>
 
       <td><?= $user['created_at']?></td>
     </tr>

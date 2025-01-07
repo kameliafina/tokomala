@@ -23,7 +23,7 @@
 <h4>Total Harga Barang: <span id="totalHarga"><?= number_format($totalHarga, 0, ',', '.'); ?></span></h4>
 
 <h3>Pilih Jasa Pengiriman</h3>
-<form method="post" action="/pelangganctrl/prosespembayaran">
+<form method="post" action="/pelangganctrl/prosespembayaran" enctype="multipart/form-data">
     <input type="hidden" name="total_harga_barang" value="<?= $totalHarga; ?>" id="totalHargaBarang">
     <input type="hidden" name="biaya_pengiriman" value="0" id="biayaPengiriman">
     <input type="hidden" name="total_bayar" value="<?= $totalHarga; ?>" id="totalBayar">

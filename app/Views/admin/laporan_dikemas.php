@@ -1,12 +1,22 @@
 <?= $this->extend('main/layout') ?>
 
 <?= $this->section('judul') ?>
-PROSES TRANSAKSI
+LAPORAN BARANG DIKEMAS
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>
-<a href="<?= site_url('/adminctrl/histori_view') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+<a href="<?= site_url('/adminctrl/laporan') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
 <img src="<?php echo base_url('asset-pelanggan') ?>/images/back.png" alt="Category Thumbnail">Kembali</a>
+
+<?php 
+    $pdf = false;
+    if (strpos(current_url(), "print_laporan")){
+        $pdf = true;
+    }
+    if ($pdf == false) {
+    ?>
+    <input type="button" class="btn btn-success" value="Print PDF" onclick="window.open('<?php echo site_url('adminctrl/print_laporan') ?>', 'blank')">
+    <?php } ?>
 
 <table class="table table-hover mt-3">
   <br>
@@ -39,15 +49,7 @@ PROSES TRANSAKSI
       <td>
         <img src="<?= base_url('upload/' . $user['bukti']) ?>" alt="<?= $user['nama_pelanggan'] ?>" width="100" height="auto">
       </td>
-      <td>
-        <form action="<?= site_url('/adminctrl/updateStatus/' . $user['id']) ?>" method="post">
-        <input type="hidden" name="_method" value="PUT">
-        <button type="submit" class="btn btn-success btn-circle" <?= ($user['status'] == 'dikirim') ? 'disabled' : '' ?>>
-            <i class="fas fa-check"></i>
-        </button>
-    </form>
-  </td>
-
+      <td><?= $user['status']?></td>
       <td><?= $user['created_at']?></td>
     </tr>
     <?php endforeach?>

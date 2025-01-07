@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\TransaksiModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
+use Dompdf\Dompdf;
 
 class AdminCtrl extends BaseController
 {
@@ -78,7 +79,7 @@ class AdminCtrl extends BaseController
     public function histori_list()
     {
         $transaksi = new TransaksiModel();
-        $ambil = $transaksi->findAll();
+        $ambil = $transaksi->where('status', 'dikemas')->findAll();
 
         // var_dump($ambil);
         // die();
@@ -88,6 +89,124 @@ class AdminCtrl extends BaseController
         ];
         return view('admin/histori_list', $data);
     }
+
+    public function histori_dikirim()
+    {
+        $transaksi = new TransaksiModel();
+        $ambil = $transaksi->where('status', 'dikirim')->findAll();
+
+        // var_dump($ambil);
+        // die();
+
+        $data = [
+            'datatransaksi' => $ambil
+        ];
+        return view('admin/histori_dikirim', $data);
+    }
+
+    public function updateStatus($id)
+{
+    // Cek apakah transaksi dengan ID ini ada
+    $transaksiModel = new TransaksiModel();
+    $transaksi = $transaksiModel->find($id);
+
+    if ($transaksi) {
+        // Update status transaksi menjadi 'dikirim'
+        $transaksiModel->update($id, [
+            'status' => 'dikirim'
+        ]);
+
+        // Redirect kembali ke halaman histori dengan pesan sukses
+        return redirect()->to('/adminctrl/histori_view')->with('success', 'Status transaksi berhasil diperbarui menjadi Dikirim');
+    } else {
+        // Jika transaksi tidak ditemukan, redirect dengan pesan error
+        return redirect()->to('/adminctrl/histori_view')->with('error', 'Transaksi tidak ditemukan');
+    }
+}
+
+public function laporan()
+{
+    return view('admin/laporan');
+}
+
+public function laporan_dikemas()
+    {
+        $transaksi = new TransaksiModel();
+        $ambil = $transaksi->where('status', 'dikemas')->findAll();
+
+        // var_dump($ambil);
+        // die();
+
+        $data = [
+            'datatransaksi' => $ambil
+        ];
+        return view('admin/laporan_dikemas', $data);
+    }
+
+    public function laporan_dikirim()
+    {
+        $transaksi = new TransaksiModel();
+        $ambil = $transaksi->where('status', 'dikirim')->findAll();
+
+        // var_dump($ambil);
+        // die();
+
+        $data = [
+            'datatransaksi' => $ambil
+        ];
+        return view('admin/laporan_dikirim', $data);
+    }
+
+
+
+public function print_laporan()
+{
+    // Ambil data transaksi dari model
+    $transaksiModel = new TransaksiModel();
+    $transaksi = $transaksiModel->where('status', 'dikemas')->findAll(); // Contoh filter berdasarkan status 'dikirim'
+
+    // Load view untuk laporan
+    $html = view('admin/laporan_pdf', ['datatransaksi' => $transaksi]);
+
+    // Inisialisasi Dompdf
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+
+    // Set paper size (optional)
+    $dompdf->setPaper('A4', 'portrait');
+
+    // Render PDF (first pass)
+    $dompdf->render();
+
+    // Stream PDF to browser
+    return $dompdf->stream('laporan_transaksi.pdf', ['Attachment' => 0]);
+}
+
+public function print_laporan2()
+{
+    // Ambil data transaksi dari model
+    $transaksiModel = new TransaksiModel();
+    $transaksi = $transaksiModel->where('status', 'dikirim')->findAll(); // Contoh filter berdasarkan status 'dikirim'
+
+    // Load view untuk laporan
+    $html = view('admin/laporan_pdf', ['datatransaksi' => $transaksi]);
+
+    // Inisialisasi Dompdf
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+
+    // Set paper size (optional)
+    $dompdf->setPaper('A4', 'portrait');
+
+    // Render PDF (first pass)
+    $dompdf->render();
+
+    // Stream PDF to browser
+    return $dompdf->stream('laporan_transaksi.pdf', ['Attachment' => 0]);
+}
+
+    
+
 }
 
 
