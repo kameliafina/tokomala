@@ -49,7 +49,7 @@ class AdminCtrl extends BaseController
             'role' => $role
         ]);
 
-        return redirect()->to('/adminctrl/index')->with('success', 'User berhasil ditambahkan!');
+        return redirect()->to('/adminctrl/user_view')->with('success', 'User berhasil ditambahkan!');
     }
 
     public function user_view()
