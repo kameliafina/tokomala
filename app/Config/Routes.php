@@ -40,6 +40,9 @@ $routes->get('/pelangganctrl/suksesPembayaran', 'PelangganCtrl::pembayaranSukses
 $routes->post('/pelangganctrl/prosespembayaran', 'PelangganCtrl::prosespembayaran');
 $routes->get('/pelangganctrl/hapuskeranjang/(:num)', 'PelangganCtrl::hapusKeranjang/$1');
 $routes->post('/pelangganctrl/ubahjumlah/(:segment)', 'PelangganCtrl::ubahjumlah/$1');
+$routes->get('/pelangganctrl/lacak', 'PelangganCtrl::lacak');
+$routes->get('/pelangganctrl/barang_dikemas', 'PelangganCtrl::barang_dikemas');
+$routes->get('/pelangganctrl/detail_dikemas/(:num)', 'PelangganCtrl::detail_dikemas/$1');
 
 $routes->get('hash-passwords', 'SetupCtrl::hashPasswords');
 

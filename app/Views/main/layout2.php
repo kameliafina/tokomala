@@ -144,7 +144,7 @@
           
           <div class="col-sm-4 col-lg-3 text-center text-sm-start">
             <div class="main-logo">
-              <a href="<?php echo base_url('pelangganctrl/index') ?>">
+              <a href="<?php echo base_url('home/tampil') ?>">
                 <img src="<?php echo base_url('asset-pelanggan') ?>/images/logo2.png" alt="logo" class="img-fluid">
               </a>
             </div>
@@ -185,6 +185,8 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
             <li><a class="dropdown-item" href="<?= site_url('/pelangganctrl/profile') ?>">Profil</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="<?= site_url('/pelangganctrl/lacak') ?>">Lacak</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="<?= site_url('/loginctrl/logout') ?>">Logout</a></li>
         </ul>

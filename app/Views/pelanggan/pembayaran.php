@@ -1,4 +1,10 @@
-<h3>Keranjang Belanja</h3>
+<?= $this->extend('main/layout2') ?>
+
+<?= $this->section('judul') ?>
+BAYAR BELANJA
+<?= $this->endSection('judul') ?>
+
+<?= $this->section('isi') ?>
 <table>
     <thead>
         <tr>
@@ -63,3 +69,5 @@
         document.getElementById('totalPembayaran').textContent = 'Rp ' + totalBayar.toLocaleString();
     });
 </script>
+
+<?= $this->endSection('isi') ?>

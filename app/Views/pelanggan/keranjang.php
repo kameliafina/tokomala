@@ -1,4 +1,10 @@
-<h1>Keranjang Belanja</h1>
+<?= $this->extend('main/layout2') ?>
+
+<?= $this->section('judul') ?>
+KERANJANG BELANJA
+<?= $this->endSection('judul') ?>
+
+<?= $this->section('isi') ?>
 
 <?php if (session()->getFlashdata('success')) : ?>
     <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
@@ -53,3 +59,5 @@
 <?php endif; ?>
 
 <a href="<?= base_url('/pelangganctrl/pembayaran/') ?>" class="btn btn-danger">Bayar</a>
+
+<?= $this->endSection('isi') ?>

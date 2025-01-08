@@ -213,6 +213,10 @@ public function prosesPembayaran()
     ];
     $transaksiModel->save($dataTransaksi);
 
+    // Hapus data keranjang setelah pembayaran berhasil
+    $keranjangModel = new KeranjangModel();
+    $keranjangModel->where('user_id', $idPelanggan)->delete();
+
     return redirect()->to('/pelangganctrl/suksesPembayaran');
 }
 
@@ -257,5 +261,42 @@ public function pembayaranSukses()
 {
     return view('pelanggan/sukses');
 }
+
+    public function lacak()
+    {
+        return view('pelanggan/lacak');
+    }
+
+    public function barang_dikemas()
+    {
+        $transaksi = new TransaksiModel();
+        $ambil = $transaksi->where('status', 'dikemas')->findAll();
+
+        // var_dump($ambil);
+        // die();
+
+        $data = [
+            'datatransaksi' => $ambil
+        ];
+
+        return view('pelanggan/barang_dikemas', $data);
+    }
+    public function detail_dikemas($id)
+    {
+        $transaksi = new TransaksiModel();
+
+        // Gabungkan data dari `transaksi` dan `pembayaran_detail`
+        $detail = $transaksi
+            ->select('transaksi.*, pembayaran_detail.kd_barang, pembayaran_detail.jumlah, pembayaran_detail.subtotal')
+            ->join('pembayaran_detail', 'pembayaran_detail.id_pembayaran = transaksi.id')
+            ->where('transaksi.id', $id)
+            ->findAll();
+
+        $data = [
+            'detailtransaksi' => $detail
+        ];
+
+        return view('pelanggan/detail_dikemas', $data);
+    }
 
 }
