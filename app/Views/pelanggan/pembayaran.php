@@ -26,6 +26,7 @@ BAYAR BELANJA
     </tbody>
 </table>
 
+
 <h4>Total Harga Barang: <span id="totalHarga"><?= number_format($totalHarga, 0, ',', '.'); ?></span></h4>
 
 <h3>Pilih Jasa Pengiriman</h3>
@@ -35,6 +36,19 @@ BAYAR BELANJA
     <input type="hidden" name="total_bayar" value="<?= $totalHarga; ?>" id="totalBayar">
     <input type="hidden" name="id_pelanggan" value="<?= session()->get('user_id'); ?>">
 
+    <!-- Input untuk Nama Pelanggan dan Alamat -->
+    <div>
+        <label for="nama_pelanggan">Nama Pelanggan:</label>
+        <input type="text" id="nama_pelanggan" name="nama_pelanggan" value="<?= session()->get('user_name'); ?>" required />
+    </div>
+    
+    <div>
+        <label for="alamat">Alamat:</label>
+        <textarea id="alamat" name="alamat" required><?= old('alamat'); ?></textarea>
+    </div>
+
+    <!-- Pilih Jasa Pengiriman -->
+    <h3>Pilih Jasa Pengiriman</h3>
     <select name="jasa_pengiriman" id="jasaPengiriman" required>
         <option value="">-- Pilih Jasa Pengiriman --</option>
         <?php foreach ($pengiriman as $pengirimanItem): ?>
@@ -54,14 +68,10 @@ BAYAR BELANJA
 
 <script>
     document.getElementById('jasaPengiriman').addEventListener('change', function () {
-        // Ambil biaya pengiriman yang dipilih
         var biayaPengiriman = parseInt(this.options[this.selectedIndex].getAttribute('data-biaya'));
-
-        // Update biaya pengiriman di form dan tampilan
         document.getElementById('biayaPengiriman').value = biayaPengiriman;
         document.getElementById('biayaPengirimanText').textContent = 'Rp ' + biayaPengiriman.toLocaleString();
 
-        // Update total pembayaran
         var totalHargaBarang = parseInt(document.getElementById('totalHarga').textContent.replace(/\D/g, ''));
         var totalBayar = totalHargaBarang + biayaPengiriman;
 

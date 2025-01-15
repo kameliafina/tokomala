@@ -11,6 +11,7 @@ BARANG DIKEMAS
     <tr>
       <th scope="col">NO</th>
       <th scope="col">Id Transaksi</th>
+      <th scope="col">Id User</th>
       <th scope="col">Nama Pelanggan</th>
       <th scope="col">Total Bayar</th>
       <th scope="col">Status</th>
@@ -25,6 +26,7 @@ BARANG DIKEMAS
     ?>
     <th scope="row"><?= $nomor++;?></th>
       <td><?= $user['id']?></td>
+      <td><?= $user['user_id']?></td>
       <td><?= $user['nama_pelanggan']?></td>
       <td><?= $user['total_bayar']?></td>
       <td><?= $user['status']?></td>

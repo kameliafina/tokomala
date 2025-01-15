@@ -14,6 +14,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class PelangganCtrl extends BaseController
 {
+
     public function index()
     {
         if (!session()->has('user_id')) {
@@ -100,35 +101,30 @@ class PelangganCtrl extends BaseController
 
     // Menampilkan isi keranjang
     public function keranjang()
-{
-    // Ambil data keranjang dari model
-    $keranjangModel = new KeranjangModel();
-    $keranjang = $keranjangModel->findAll();
+    {
+        $keranjang = $this->keranjangModel->findAll();
+        $totalHarga = 0;
 
-    // Inisialisasi total harga
-    $totalHarga = 0;
+        foreach ($keranjang as &$item) {
+            $barang = $this->barangModel->where('kd_barang', $item['kd_barang'])->first();
 
-    // Ambil model barang
-    $barangModel = new BarangModel();
-
-    // Iterasi untuk menghitung total harga dan menambahkan foto barang ke data keranjang
-    foreach ($keranjang as &$item) {
-        // Ambil harga barang berdasarkan ID
-        $barang = $barangModel->find($item['kd_barang']);
-        if ($barang) {
-            $totalHarga += $barang['harga_barang'] * $item['jumlah']; // Total harga = harga barang * jumlah
-            $item['foto'] = $barang['foto'];  // Menambahkan foto barang ke item
-            $item['nama_barang'] = $barang['nama_barang'];  // Menambahkan foto barang ke item
-            $item['harga_barang'] = $barang['harga_barang'];  // Menambahkan foto barang ke item
+            if ($barang) {
+                $totalHarga += $barang['harga_barang'] * $item['jumlah'];
+                $item['foto'] = $barang['foto'];
+                $item['nama_barang'] = $barang['nama_barang'];
+                $item['harga_barang'] = $barang['harga_barang'];
+            } else {
+                $item['foto'] = 'default.jpg';
+                $item['nama_barang'] = 'Barang tidak ditemukan';
+                $item['harga_barang'] = 0;
+            }
         }
-    }
 
-    // Pass data keranjang dan total harga ke view
-    return view('pelanggan/keranjang', [
-        'keranjang' => $keranjang,
-        'totalHarga' => $totalHarga
-    ]);
-}
+        return view('pelanggan/keranjang', [
+            'keranjang' => $keranjang,
+            'totalHarga' => $totalHarga
+        ]);
+    }
 
 
 
@@ -179,6 +175,8 @@ public function prosesPembayaran()
     $biayaPengiriman = $this->request->getPost('biaya_pengiriman');
     $totalKeseluruhan = $totalHargaBarang + $biayaPengiriman;
     $idPelanggan = session()->get('user_id');
+    $namaPelanggan = $this->request->getPost('nama_pelanggan'); // Nama pelanggan dari form
+    $alamat = $this->request->getPost('alamat'); // Alamat dari form
 
     // Ambil file bukti
     $fileBukti = $this->request->getFile('bukti');
@@ -187,19 +185,12 @@ public function prosesPembayaran()
     // Validasi dan pindahkan file jika ada
     if ($fileBukti && $fileBukti->isValid() && !$fileBukti->hasMoved()) {
         $buktiName = $fileBukti->getRandomName();
-
-        // Pindahkan file ke folder public/upload
         $fileBukti->move(FCPATH . 'upload', $buktiName);
-
-        // Debugging untuk memastikan file tersimpan
-        if (!file_exists(FCPATH . 'upload/' . $buktiName)) {
-            return redirect()->back()->with('error', 'File tidak tersimpan di folder public/upload.');
-        }
     } else {
         return redirect()->back()->with('error', 'Harap unggah bukti pembayaran yang valid.');
     }
 
-    // Simpan data transaksi
+    // Simpan data transaksi utama
     $transaksiModel = new TransaksiModel();
     $dataTransaksi = [
         'user_id' => $idPelanggan,
@@ -209,47 +200,62 @@ public function prosesPembayaran()
         'id_pengiriman' => $idPengiriman,
         'bukti' => $buktiName,
         'status' => 'dikemas',
+        'nama_pelanggan' => $namaPelanggan,  // Menyimpan nama pelanggan
+        'alamat' => $alamat,  // Menyimpan alamat
         'created_at' => date('Y-m-d H:i:s')
     ];
     $transaksiModel->save($dataTransaksi);
 
-    // Hapus data keranjang setelah pembayaran berhasil
+    // Ambil ID transaksi terakhir
+    $idTransaksi = $transaksiModel->getInsertID();
+
+    // Ambil data keranjang pengguna
     $keranjangModel = new KeranjangModel();
+    $keranjang = $keranjangModel->getKeranjangByUser($idPelanggan);
+
+    // Simpan data ke tabel pembayaran_detail
+    $pembayaranDetailModel = new PembayaranDetailModel();
+    foreach ($keranjang as $item) {
+        $pembayaranDetailModel->save([
+            'id_pembayaran' => $idTransaksi,
+            'kd_barang' => $item['kd_barang'],
+            'jumlah' => $item['jumlah'],
+            'subtotal' => $item['jumlah'] * $item['harga_barang']
+        ]);
+    }
+
+    // Hapus data keranjang setelah pembayaran berhasil
     $keranjangModel->where('user_id', $idPelanggan)->delete();
 
-    return redirect()->to('/pelangganctrl/suksesPembayaran');
+    return redirect()->to('/pelangganctrl/suksesPembayaran')->with('success', 'Pembayaran berhasil dilakukan.');
 }
+
+
 
 
 public function pembayaran()
 {
-    // Ambil data keranjang dari model
-    $keranjangModel = new KeranjangModel();
-    $keranjang = $keranjangModel->findAll();
-
-    // Inisialisasi total harga
+    $keranjang = $this->keranjangModel->findAll();
     $totalHarga = 0;
 
-    // Ambil model barang
-    $barangModel = new BarangModel();
-
-    // Iterasi untuk menghitung total harga dan menambahkan data barang ke data keranjang
     foreach ($keranjang as &$item) {
-        // Ambil harga barang berdasarkan ID
-        $barang = $barangModel->find($item['kd_barang']);
+        $barang = $this->barangModel->where('kd_barang', $item['kd_barang'])->first();
+
         if ($barang) {
-            $totalHarga += $barang['harga_barang'] * $item['jumlah']; // Total harga = harga barang * jumlah
-            $item['foto'] = $barang['foto'];  
-            $item['nama_barang'] = $barang['nama_barang'];  
-            $item['harga_barang'] = $barang['harga_barang'];  
+            $totalHarga += $barang['harga_barang'] * $item['jumlah'];
+            $item['foto'] = $barang['foto'];
+            $item['nama_barang'] = $barang['nama_barang'];
+            $item['harga_barang'] = $barang['harga_barang'];
+        } else {
+            $item['foto'] = 'default.jpg';
+            $item['nama_barang'] = 'Barang tidak ditemukan';
+            $item['harga_barang'] = 0;
         }
     }
 
-    // Ambil data jasa pengiriman
-    $pengirimanModel = new PengirimanModel();
-    $pengiriman = $pengirimanModel->findAll(); // Ambil semua jasa pengiriman
+    $pengirimanModel = new \App\Models\PengirimanModel();
+    $pengiriman = $pengirimanModel->findAll();
 
-    // Pass data keranjang, total harga, dan pengiriman ke view
     return view('pelanggan/pembayaran', [
         'keranjang' => $keranjang,
         'totalHarga' => $totalHarga,
@@ -268,35 +274,46 @@ public function pembayaranSukses()
     }
 
     public function barang_dikemas()
-    {
-        $transaksi = new TransaksiModel();
-        $ambil = $transaksi->where('status', 'dikemas')->findAll();
-
-        // var_dump($ambil);
-        // die();
-
-        $data = [
-            'datatransaksi' => $ambil
-        ];
-
-        return view('pelanggan/barang_dikemas', $data);
+{
+    // Pastikan pengguna sudah login
+    if (!session()->has('user_id')) {
+        return redirect()->to('/login')->with('error', 'Harap login terlebih dahulu.');
     }
-    public function detail_dikemas($id)
-    {
-        $transaksi = new TransaksiModel();
 
-        // Gabungkan data dari `transaksi` dan `pembayaran_detail`
-        $detail = $transaksi
-            ->select('transaksi.*, pembayaran_detail.kd_barang, pembayaran_detail.jumlah, pembayaran_detail.subtotal')
-            ->join('pembayaran_detail', 'pembayaran_detail.id_pembayaran = transaksi.id')
-            ->where('transaksi.id', $id)
-            ->findAll();
+    $userId = session()->get('user_id'); // Ambil ID user dari session
+    $transaksiModel = new TransaksiModel();
 
-        $data = [
-            'detailtransaksi' => $detail
-        ];
+    // Ambil data transaksi dengan status "dikemas" dan user_id sesuai
+    $ambil = $transaksiModel->where('status', 'dikemas')
+                            ->where('user_id', $userId)
+                            ->findAll();
 
-        return view('pelanggan/detail_dikemas', $data);
-    }
+    $data = [
+        'datatransaksi' => $ambil
+    ];
+
+    return view('pelanggan/barang_dikemas', $data);
+}
+
+
+public function detail_dikemas($id)
+{
+    $transaksi = new TransaksiModel();
+
+    // Gabungkan data dari `transaksi`, `pembayaran_detail`, dan `barang`
+    $detail = $transaksi
+        ->select('transaksi.*, pembayaran_detail.kd_barang, pembayaran_detail.jumlah, pembayaran_detail.subtotal, barang.nama_barang, barang.foto')
+        ->join('pembayaran_detail', 'pembayaran_detail.id_pembayaran = transaksi.id')
+        ->join('barang', 'barang.kd_barang = pembayaran_detail.kd_barang')  // Menambahkan join ke tabel barang
+        ->where('transaksi.id', $id)
+        ->findAll();
+
+    $data = [
+        'detailtransaksi' => $detail
+    ];
+
+    return view('pelanggan/detail_dikemas', $data);
+}
+
 
 }
