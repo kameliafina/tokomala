@@ -22,6 +22,7 @@ $routes->get('adminctrl/user_view', 'AdminCtrl::user_view');
 $routes->get('adminctrl/histori_view', 'AdminCtrl::histori_view');
 $routes->get('adminctrl/histori_list', 'AdminCtrl::histori_list');
 $routes->get('adminctrl/histori_dikirim', 'AdminCtrl::histori_dikirim');
+$routes->get('adminctrl/histori_diterima', 'AdminCtrl::histori_diterima');
 $routes->get('adminctrl/laporan', 'AdminCtrl::laporan');
 $routes->get('adminctrl/laporan_dikemas', 'AdminCtrl::laporan_dikemas');
 $routes->get('adminctrl/laporan_dikirim', 'AdminCtrl::laporan_dikirim');
@@ -32,6 +33,7 @@ $routes->put('/adminctrl/updateStatus/(:num)', 'AdminCtrl::updateStatus/$1');
 
 $routes->get('pelangganctrl/index', 'PelangganCtrl::index');
 $routes->get('pelangganctrl/databarang', 'PelangganCtrl::databarang');
+$routes->get('/pelangganctrl/barangByKategori/(:num)', 'PelangganCtrl::barangByKategori/$1');
 $routes->get('pelangganctrl/profile', 'PelangganCtrl::profile');
 $routes->post('/pelangganctrl/tambahkeranjang', 'PelangganCtrl::tambahKeranjang');
 $routes->get('/pelangganctrl/keranjang', 'PelangganCtrl::keranjang');
@@ -43,6 +45,10 @@ $routes->post('/pelangganctrl/ubahjumlah/(:segment)', 'PelangganCtrl::ubahjumlah
 $routes->get('/pelangganctrl/lacak', 'PelangganCtrl::lacak');
 $routes->get('/pelangganctrl/barang_dikemas', 'PelangganCtrl::barang_dikemas');
 $routes->get('/pelangganctrl/detail_dikemas/(:num)', 'PelangganCtrl::detail_dikemas/$1');
+$routes->get('/pelangganctrl/barang_dikirim', 'PelangganCtrl::barang_dikirim');
+$routes->get('/pelangganctrl/detail_dikirim/(:num)', 'PelangganCtrl::detail_dikirim/$1');
+$routes->get('/pelangganctrl/updateStatus/(:num)', 'PelangganCtrl::updateStatus/$1');
+
 
 $routes->get('hash-passwords', 'SetupCtrl::hashPasswords');
 

@@ -1,7 +1,7 @@
 <?= $this->extend('main/layout2')?>
 
 <?= $this->section('judul')?>
-PERALATAN DAPUR
+peralatan <?= $nama_kategori ?>
 <?= $this->endSection('judul')?>
 
 <?= $this->section('isi')?>

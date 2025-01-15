@@ -23,7 +23,7 @@ PERALATAN DAPUR
                 <h6 class="m-0 font-weight-bold text-primary">BARANG DIKIRIM</h6>
             </div>
             <div class="card-body">
-                <a href="<?= site_url('adminctrl/laporan_dikirim') ?>" class="d-none d-sm-inline-block btn btn-block btn-sm btn-primary shadow-sm">
+                <a href="<?= site_url('pelangganctrl/barang_dikirim') ?>" class="d-none d-sm-inline-block btn btn-block btn-sm btn-primary shadow-sm">
                     <img src="<?php echo base_url('asset-admin') ?>/img/barang.svg" alt="Category Thumbnail"> </a>
             </div>
         </div>

@@ -104,6 +104,20 @@ class AdminCtrl extends BaseController
         return view('admin/histori_dikirim', $data);
     }
 
+    public function histori_diterima()
+    {
+        $transaksi = new TransaksiModel();
+        $ambil = $transaksi->where('status', 'diterima')->findAll();
+
+        // var_dump($ambil);
+        // die();
+
+        $data = [
+            'datatransaksi' => $ambil
+        ];
+        return view('admin/histori_diterima', $data);
+    }
+
     public function updateStatus($id)
 {
     // Cek apakah transaksi dengan ID ini ada

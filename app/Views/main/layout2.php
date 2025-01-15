@@ -321,38 +321,27 @@
 
             <div class="category-carousel swiper">
               <div class="swiper-wrapper">
-                <a href="<?= site_url('/pelangganctrl/databarang')?>" class="nav-link category-item swiper-slide">
+                <a href="<?= site_url('/pelangganctrl/barangByKategori/1')?>" class="nav-link category-item swiper-slide">
                   <img src="<?php echo base_url('asset-pelanggan') ?>/images/icon.png" alt="Category Thumbnail">
                   <h3 class="category-title">kitchen</h3>
                 </a>
-                <a href="index.html" class="nav-link category-item swiper-slide">
+                <a href="<?= site_url('/pelangganctrl/barangByKategori/2')?>" class="nav-link category-item swiper-slide">
                   <img src="<?php echo base_url('asset-pelanggan') ?>/images/icon2.png" alt="Category Thumbnail">
                   <h3 class="category-title">furniture</h3>
                 </a>
-                <a href="<?= site_url('/pelangganctrl/kebersihan')?>" class="nav-link category-item swiper-slide">
+                <a href="<?= site_url('/pelangganctrl/barangByKategori/3')?>" class="nav-link category-item swiper-slide">
                   <img src="<?php echo base_url('asset-pelanggan') ?>/images/pail.png" alt="Category Thumbnail">
                   <h3 class="category-title">Peralatan Kebersihan</h3>
                 </a>
-                <a href="<?= site_url('/pelangganctrl/anak')?>" class="nav-link category-item swiper-slide">
+                <a href="<?= site_url('/pelangganctrl/barangByKategori/4')?>" class="nav-link category-item swiper-slide">
                   <img src="<?php echo base_url('asset-pelanggan') ?>/images/children.png" alt="Category Thumbnail">
                   <h3 class="category-title">Anak</h3>
                 </a>
-                <a href="index.html" class="nav-link category-item swiper-slide">
+                <a href="<?= site_url('/pelangganctrl/barangByKategori/5')?>" class="nav-link category-item swiper-slide">
                   <img src="<?php echo base_url('asset-pelanggan') ?>/images/bath.png" alt="Category Thumbnail">
                   <h3 class="category-title">Peralatan Kamar Mandi</h3>
                 </a>
-                <a href="index.html" class="nav-link category-item swiper-slide">
-                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/garden.png" alt="Category Thumbnail">
-                  <h3 class="category-title">Alat Berkebun</h3>
-                </a>
-                <a href="index.html" class="nav-link category-item swiper-slide">
-                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/tepak.png" alt="Category Thumbnail">
-                  <h3 class="category-title">Toples dan Tempat Makan</h3>
-                </a>
-                <a href="index.html" class="nav-link category-item swiper-slide">
-                  <img src="<?php echo base_url('asset-pelanggan') ?>/images/box.png" alt="Category Thumbnail">
-                  <h3 class="category-title">Tempat Penyimpanan Barang</h3>
-                </a>
+                
               
                 
               </div>

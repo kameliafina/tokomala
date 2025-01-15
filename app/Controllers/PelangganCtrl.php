@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\BarangModel;
+use App\Models\KategoriModel;
 use App\Models\KeranjangModel;
 use App\Models\PembayaranDetailModel;
 use App\Models\PengirimanModel;
@@ -44,8 +45,29 @@ class PelangganCtrl extends BaseController
         $data = [
             'databarang' => $ambil
         ];
-        return view('pelanggan/dapur', $data);
+        return view('pelanggan/barang', $data);
     }
+
+    public function barangByKategori($id_kat)
+{
+    $barangModel = new BarangModel();
+    $kategoriModel = new KategoriModel();
+
+    // Ambil barang berdasarkan kategori
+    $databarang = $barangModel->where('id_kat', $id_kat)->findAll();
+
+    // Ambil nama kategori
+    $kategori = $kategoriModel->find($id_kat);
+
+    $data = [
+        'databarang' => $databarang,
+        'nama_kategori' => $kategori['nama_kat'] ?? 'Kategori Tidak Ditemukan'
+    ];
+
+    return view('pelanggan/barang', $data);
+}
+
+
     
 
     protected $keranjangModel;
@@ -300,11 +322,19 @@ public function detail_dikemas($id)
 {
     $transaksi = new TransaksiModel();
 
-    // Gabungkan data dari `transaksi`, `pembayaran_detail`, dan `barang`
+    // Gabungkan data dari `transaksi`, `pembayaran_detail`, `barang`, dan `pengiriman`
     $detail = $transaksi
-        ->select('transaksi.*, pembayaran_detail.kd_barang, pembayaran_detail.jumlah, pembayaran_detail.subtotal, barang.nama_barang, barang.foto')
+        ->select('transaksi.*, 
+                  pembayaran_detail.kd_barang, 
+                  pembayaran_detail.jumlah, 
+                  pembayaran_detail.subtotal, 
+                  barang.nama_barang, 
+                  barang.foto, 
+                  pengiriman.jasa_pengiriman, 
+                  pengiriman.biaya_pengiriman')
         ->join('pembayaran_detail', 'pembayaran_detail.id_pembayaran = transaksi.id')
-        ->join('barang', 'barang.kd_barang = pembayaran_detail.kd_barang')  // Menambahkan join ke tabel barang
+        ->join('barang', 'barang.kd_barang = pembayaran_detail.kd_barang') 
+        ->join('pengiriman', 'pengiriman.id = transaksi.id_pengiriman') // Join ke tabel pengiriman
         ->where('transaksi.id', $id)
         ->findAll();
 
@@ -314,6 +344,69 @@ public function detail_dikemas($id)
 
     return view('pelanggan/detail_dikemas', $data);
 }
+
+public function barang_dikirim()
+{
+    // Pastikan pengguna sudah login
+    if (!session()->has('user_id')) {
+        return redirect()->to('/login')->with('error', 'Harap login terlebih dahulu.');
+    }
+
+    $userId = session()->get('user_id'); // Ambil ID user dari session
+    $transaksiModel = new TransaksiModel();
+
+    // Ambil data transaksi dengan status "dikemas" dan user_id sesuai
+    $ambil = $transaksiModel->where('status', 'dikirim')
+                            ->where('user_id', $userId)
+                            ->findAll();
+
+    $data = [
+        'datatransaksi' => $ambil
+    ];
+
+    return view('pelanggan/barang_dikirim', $data);
+}
+
+
+public function detail_dikirim($id)
+{
+    $transaksi = new TransaksiModel();
+
+    // Gabungkan data dari `transaksi`, `pembayaran_detail`, `barang`, dan `pengiriman`
+    $detail = $transaksi
+        ->select('transaksi.*, 
+                  pembayaran_detail.kd_barang, 
+                  pembayaran_detail.jumlah, 
+                  pembayaran_detail.subtotal, 
+                  barang.nama_barang, 
+                  barang.foto, 
+                  pengiriman.jasa_pengiriman, 
+                  pengiriman.biaya_pengiriman')
+        ->join('pembayaran_detail', 'pembayaran_detail.id_pembayaran = transaksi.id')
+        ->join('barang', 'barang.kd_barang = pembayaran_detail.kd_barang') 
+        ->join('pengiriman', 'pengiriman.id = transaksi.id_pengiriman') // Join ke tabel pengiriman
+        ->where('transaksi.id', $id)
+        ->findAll();
+
+    $data = [
+        'detailtransaksi' => $detail
+    ];
+
+    return view('pelanggan/detail_dikirim', $data);
+}
+
+public function updateStatus($id)
+{
+    $transaksi = new TransaksiModel();
+
+    // Update status transaksi menjadi 'diterima'
+    $transaksi->update($id, ['status' => 'diterima']);
+
+    // Redirect kembali ke halaman barang dikirim
+    return redirect()->to('/pelangganctrl/barang_dikirim')->with('success', 'Status berhasil diperbarui menjadi Diterima');
+}
+
+
 
 
 }
