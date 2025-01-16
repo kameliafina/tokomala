@@ -171,6 +171,20 @@ public function laporan_dikemas()
         return view('admin/laporan_dikirim', $data);
     }
 
+    public function laporan_diterima()
+    {
+        $transaksi = new TransaksiModel();
+        $ambil = $transaksi->where('status', 'diterima')->findAll();
+
+        // var_dump($ambil);
+        // die();
+
+        $data = [
+            'datatransaksi' => $ambil
+        ];
+        return view('admin/laporan_diterima', $data);
+    }
+
 
 
 public function print_laporan()
@@ -201,6 +215,29 @@ public function print_laporan2()
     // Ambil data transaksi dari model
     $transaksiModel = new TransaksiModel();
     $transaksi = $transaksiModel->where('status', 'dikirim')->findAll(); // Contoh filter berdasarkan status 'dikirim'
+
+    // Load view untuk laporan
+    $html = view('admin/laporan_pdf', ['datatransaksi' => $transaksi]);
+
+    // Inisialisasi Dompdf
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+
+    // Set paper size (optional)
+    $dompdf->setPaper('A4', 'portrait');
+
+    // Render PDF (first pass)
+    $dompdf->render();
+
+    // Stream PDF to browser
+    return $dompdf->stream('laporan_transaksi.pdf', ['Attachment' => 0]);
+}
+
+public function print_laporan3()
+{
+    // Ambil data transaksi dari model
+    $transaksiModel = new TransaksiModel();
+    $transaksi = $transaksiModel->where('status', 'diterima')->findAll(); // Contoh filter berdasarkan status 'dikirim'
 
     // Load view untuk laporan
     $html = view('admin/laporan_pdf', ['datatransaksi' => $transaksi]);

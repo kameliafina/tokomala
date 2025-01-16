@@ -1,69 +1,54 @@
 <?= $this->extend('main/layout') ?>
 
 <?= $this->section('judul') ?>
-BARANG
+Edit Barang
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>
-Tambah Data Barang
+<?= form_open_multipart('barangctrl/updatebarang') ?>
+    <input type="hidden" name="kd_barang" value="<?= $row['kd_barang'] ?>">
 
-<div class="d-flex justify-content-end">
-<a href="<?= site_url('barangctrl/databarang') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-<img src="<?php echo base_url('asset-pelanggan') ?>/images/back.png" alt="Category Thumbnail">Kembali</a>
-</div>
+    <div class="mb-3">
+        <label for="nama_barang" class="form-label">Nama Barang</label>
+        <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?= esc($row['nama_barang']) ?>" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="id_kat" class="form-label">Kategori</label>
+        <select class="form-select" id="id_kat" name="id_kat" required>
+            <?php foreach ($kategori as $kat): ?>
+                <option value="<?= $kat['id_kat'] ?>" <?= $kat['id_kat'] == $row['id_kat'] ? 'selected' : '' ?>>
+                    <?= esc($kat['nama_kat']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="harga_barang" class="form-label">Harga Barang</label>
+        <input type="text" class="form-control" id="harga_barang" name="harga_barang" value="<?= esc($row['harga_barang']) ?>" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="stok" class="form-label">Stok Barang</label>
+        <input type="text" class="form-control" id="stok" name="stok" value="<?= esc($row['stok']) ?>" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="deskripsi" class="form-label">Deskripsi</label>
+        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required><?= esc($row['deskripsi']) ?></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="foto" class="form-label">Foto Barang</label>
+        <input type="file" class="form-control" id="foto" name="foto">
+        <?php if ($row['foto']): ?>
+            <img src="<?= base_url('upload/' . $row['foto']) ?>" alt="<?= esc($row['nama_barang']) ?>" width="150">
+        <?php endif; ?>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+<?= form_close() ?>
+
+
 <?= $this->endSection('isi') ?>
-
-<?= $this->section('form') ?>
-
-<?= form_open('barangctrl/updatebarang') ?>
-<form>
-
-  <div class="row mb-3">
-    <label class="col-sm-2 col-form-label">Kode Barang</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="kd_barang" value="<?= $row['kd_barang'] ?>" required readonly>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label class="col-sm-2 col-form-label">Nama Barang</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="nama_barang" value="<?= $row['nama_barang'] ?>" required>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label class="col-sm-2 col-form-label">Kategori</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="id_kat" value="<?= $row['id_kat'] ?>" required>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label class="col-sm-2 col-form-label">Harga Barang</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="harga_barang" value="<?= $row['harga_barang'] ?>" required>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label class="col-sm-2 col-form-label">Stok Barang</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="stok" value="<?= $row['stok'] ?>" required>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label class="col-sm-2 col-form-label">Deskripsi</label>
-    <div class="col-sm-10">
-      <textarea class="form-control" name="deskripsi" value="<?= $row['deskripsi'] ?>" required></textarea>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label class="col-sm-2 col-form-label">Foto</label>
-    <div class="col-sm-10">
-      <input type="file" class="form-control" name="foto" value="<?= $row['foto'] ?>" required>
-    </div>
-  </div>
-  
-  
-  <button type="submit" class="btn btn-primary">Input </button>
-
-</form>
-<?= form_close(); ?>
-<?= $this->endSection('form') ?>

@@ -20,7 +20,7 @@ TRANSAKSI
             </div>
             <div class="card-body">
                 <a href="<?= site_url('/adminctrl/histori_list') ?>" class="d-none d-sm-inline-block btn btn-block custom-btn btn-sm btn-primary shadow-sm">
-                    <img src="<?php echo base_url('asset-admin') ?>/img/barang.svg" alt="Category Thumbnail"> </a>
+                    <img src="<?php echo base_url('asset-admin') ?>/img/transaksi.png" alt="Category Thumbnail"> </a>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@ TRANSAKSI
             </div>
             <div class="card-body">
                 <a href="<?= site_url('/adminctrl/histori_diterima') ?>" class="d-none d-sm-inline-block btn btn-block btn-sm btn-primary shadow-sm">
-                    <img src="<?php echo base_url('asset-admin') ?>/img/barang.svg" alt="Category Thumbnail"> </a>
+                    <img src="<?php echo base_url('asset-admin') ?>/img/diterima.png" alt="Category Thumbnail"> </a>
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@ TRANSAKSI
             </div>
             <div class="card-body">
                 <a href="<?= site_url('/adminctrl/histori_dikirim') ?>" class="d-none d-sm-inline-block btn btn-block custom-btn btn-sm btn-primary shadow-sm">
-                    <img src="<?php echo base_url('asset-admin') ?>/img/barang.svg" alt="Category Thumbnail"> </a>
+                    <img src="<?php echo base_url('asset-admin') ?>/img/mobil.png" alt="Category Thumbnail"> </a>
             </div>
         </div>
     </div>

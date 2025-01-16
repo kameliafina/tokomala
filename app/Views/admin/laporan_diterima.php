@@ -1,7 +1,7 @@
 <?= $this->extend('main/layout') ?>
 
 <?= $this->section('judul') ?>
-LAPORAN BARANG DIKIRIM
+LAPORAN BARANG DITERIMA
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>
@@ -10,12 +10,12 @@ LAPORAN BARANG DIKIRIM
 
 <?php 
     $pdf = false;
-    if (strpos(current_url(), "print_laporan2")){
+    if (strpos(current_url(), "print_laporan3")){
         $pdf = true;
     }
     if ($pdf == false) {
     ?>
-    <input type="button" class="btn btn-success" value="Print PDF" onclick="window.open('<?php echo site_url('adminctrl/print_laporan2') ?>', 'blank')">
+    <input type="button" class="btn btn-success" value="Print PDF" onclick="window.open('<?php echo site_url('adminctrl/print_laporan3') ?>', 'blank')">
     <?php } ?>
 
 <table class="table table-hover mt-3">

@@ -407,6 +407,49 @@ public function updateStatus($id)
 }
 
 
+public function detail($kd_barang)
+    {
+        $barang = $this->barangModel->find($kd_barang);
+        
+        if (!$barang) {
+            // Redirect atau tampilkan pesan error jika barang tidak ditemukan
+            return redirect()->to('/')->with('error', 'Barang tidak ditemukan');
+        }
 
+        $data = [
+            'barang' => $barang
+        ];
+
+        return view('pelanggan/detail_barang', $data);
+    }
+
+public function tampildetail()
+{
+    $dapur = new BarangModel();
+
+    $kd_barang = $this->request->getPost('kd_barang');
+    $nama_barang = $this->request->getPost('nama_barang');
+    $id_kat = $this->request->getPost('id_kat');
+    $harga_barang = $this->request->getPost('harga_barang');
+    $stok = $this->request->getPost('stok');
+    $deskripsi = $this->request->getPost('deskripsi');
+    $foto = $this->request->getPost('foto');
+
+    $data = [
+        'kd_barang' => $kd_barang,
+        'nama_barang' => $nama_barang,
+        'id_kat' => $id_kat,
+        'harga_barang' => $harga_barang,
+        'stok' => $stok,
+        'deskripsi' => $deskripsi,
+        'foto' => $foto
+    ];
+
+    if ($dapur->update($kd_barang, $data)) {
+        return redirect()->to('/pelangganctrl/datadapur');
+    } else {
+        return redirect()->back()->with('error', 'Gagal mengupdate data');
+    }
+}
 
 }
