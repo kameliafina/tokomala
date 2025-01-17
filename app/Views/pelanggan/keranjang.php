@@ -38,6 +38,7 @@ KERANJANG BELANJA
                             <button type="submit" name="action" value="tambah" class="btn btn-success btn-sm">+</button>
                         </form>
                     </td>
+
                     <td>
                         <a href="<?= base_url('/pelangganctrl/hapuskeranjang/' . $item['id']) ?>" class="btn btn-danger">Hapus</a>
                     </td>

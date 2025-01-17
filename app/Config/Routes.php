@@ -35,6 +35,7 @@ $routes->put('/adminctrl/updateStatus/(:num)', 'AdminCtrl::updateStatus/$1');
 
 $routes->get('pelangganctrl/index', 'PelangganCtrl::index');
 $routes->get('pelangganctrl/databarang', 'PelangganCtrl::databarang');
+$routes->get('pelangganctrl/databarang2', 'PelangganCtrl::databarang2');
 $routes->get('/pelangganctrl/barangByKategori/(:num)', 'PelangganCtrl::barangByKategori/$1');
 $routes->get('pelangganctrl/profile', 'PelangganCtrl::profile');
 $routes->post('/pelangganctrl/tambahkeranjang', 'PelangganCtrl::tambahKeranjang');
@@ -43,6 +44,7 @@ $routes->get('/pelangganctrl/pembayaran', 'PelangganCtrl::pembayaran');
 $routes->get('/pelangganctrl/suksesPembayaran', 'PelangganCtrl::pembayaranSukses');
 $routes->post('/pelangganctrl/prosespembayaran', 'PelangganCtrl::prosespembayaran');
 $routes->get('/pelangganctrl/hapuskeranjang/(:num)', 'PelangganCtrl::hapusKeranjang/$1');
+$routes->get('/pelangganctrl/hapus/(:num)', 'PelangganCtrl::hapusItemKeranjang/$1');
 $routes->post('/pelangganctrl/ubahjumlah/(:segment)', 'PelangganCtrl::ubahjumlah/$1');
 $routes->get('/pelangganctrl/lacak', 'PelangganCtrl::lacak');
 $routes->get('/pelangganctrl/barang_dikemas', 'PelangganCtrl::barang_dikemas');

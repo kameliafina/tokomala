@@ -48,6 +48,19 @@ class PelangganCtrl extends BaseController
         return view('pelanggan/barang', $data);
     }
 
+    public function databarang2()
+    {
+        $barang = new BarangModel();
+        $ambil = $barang->findAll();
+    
+        $data = [
+            'databarang' => $ambil
+        ];
+        return view('pelanggan/barang2', $data);
+    }
+
+    
+
     public function barangByKategori($id_kat)
 {
     $barangModel = new BarangModel();
@@ -96,6 +109,11 @@ class PelangganCtrl extends BaseController
         return redirect()->back()->with('error', 'Barang tidak ditemukan.');
     }
 
+    // Cek apakah stok cukup
+    if ($barang['stok'] < 1) {
+        return redirect()->back()->with('error', 'Stok barang tidak cukup.');
+    }
+
     // Periksa apakah barang sudah ada di keranjang
     $keranjang = $this->keranjangModel
                       ->where('user_id', $userId)
@@ -117,8 +135,13 @@ class PelangganCtrl extends BaseController
         ]);
     }
 
+    // Kurangi stok barang
+    $newStok = $barang['stok'] - 1;  // Kurangi stok berdasarkan jumlah
+    $this->barangModel->update($kdBarang, ['stok' => $newStok]);
+
     return redirect()->back()->with('success', 'Barang berhasil ditambahkan ke keranjang.');
 }
+
 
 
     // Menampilkan isi keranjang
@@ -151,43 +174,81 @@ class PelangganCtrl extends BaseController
 
 
     // Menghapus barang dari keranjang
-    public function hapusKeranjang($id)
-    {
-        $this->keranjangModel->delete($id);
-        return redirect()->to('/pelangganctrl/keranjang')->with('success', 'Barang berhasil dihapus dari keranjang.');
-    }
-
-    public function ubahjumlah($id)
+    public function hapuskeranjang($idKeranjang)
 {
-    $action = $this->request->getPost('action');
-
-    // Pastikan aksi yang diterima adalah 'tambah' atau 'kurang'
-    if ($action != 'tambah' && $action != 'kurang') {
-        return redirect()->back()->with('error', 'Aksi tidak valid!');
-    }
-
-    // Ambil model keranjang dan data keranjang berdasarkan ID
-    $keranjangModel = new KeranjangModel();
-    $keranjang = $keranjangModel->find($id);
+    // Ambil data keranjang berdasarkan id
+    $keranjang = $this->keranjangModel->find($idKeranjang);
 
     if ($keranjang) {
-        // Tentukan jumlah yang baru berdasarkan aksi
-        if ($action == 'tambah') {
-            $newJumlah = $keranjang['jumlah'] + 1; // Tambah jumlah
-        } elseif ($action == 'kurang' && $keranjang['jumlah'] > 1) {
-            $newJumlah = $keranjang['jumlah'] - 1; // Kurangi jumlah (minimal 1)
-        } else {
-            return redirect()->back()->with('error', 'Jumlah tidak bisa kurang dari 1.');
+        // Ambil data barang terkait dengan id barang di keranjang
+        $barang = $this->barangModel->find($keranjang['kd_barang']);
+
+        // Cek apakah barang ada
+        if ($barang) {
+            // Menambahkan stok barang yang dihapus
+            $newStok = $barang['stok'] + $keranjang['jumlah'];
+            $this->barangModel->update($barang['kd_barang'], ['stok' => $newStok]);
         }
 
-        // Update jumlah barang
-        $keranjangModel->update($id, ['jumlah' => $newJumlah]);
+        // Hapus item dari keranjang
+        $this->keranjangModel->delete($idKeranjang);
 
-        return redirect()->to('pelangganctrl/keranjang')->with('success', 'Jumlah barang berhasil diperbarui.');
+        // Redirect kembali ke halaman keranjang dengan pesan sukses
+        return redirect()->to('pelangganctrl/keranjang')->with('success', 'Item berhasil dihapus dan stok diperbarui.');
+    } else {
+        // Jika item keranjang tidak ditemukan
+        return redirect()->to('pelangganctrl/keranjang')->with('error', 'Item tidak ditemukan.');
     }
-
-    return redirect()->to('pelangganctrl/keranjang')->with('error', 'Barang tidak ditemukan.');
 }
+
+public function ubahjumlah($idKeranjang)
+{
+    // Ambil data keranjang berdasarkan ID
+    $keranjang = $this->keranjangModel->find($idKeranjang);
+
+    if ($keranjang) {
+        // Ambil data barang terkait dengan keranjang
+        $barang = $this->barangModel->find($keranjang['kd_barang']);
+
+        // Pastikan barang ada
+        if ($barang) {
+            // Tentukan aksi (tambah atau kurang)
+            if ($this->request->getPost('action') == 'tambah') {
+                // Tambah jumlah barang
+                $newJumlah = $keranjang['jumlah'] + 1;
+                
+                // Pastikan stok barang mencukupi
+                if ($barang['stok'] > 0) {
+                    $newStok = $barang['stok'] - 1;
+                    $this->barangModel->update($barang['kd_barang'], ['stok' => $newStok]);
+                    // Update jumlah barang di keranjang
+                    $this->keranjangModel->update($idKeranjang, ['jumlah' => $newJumlah]);
+                    return redirect()->to('pelangganctrl/keranjang')->with('success', 'Jumlah barang bertambah.');
+                } else {
+                    return redirect()->to('pelangganctrl/keranjang')->with('error', 'Stok barang tidak mencukupi.');
+                }
+            } elseif ($this->request->getPost('action') == 'kurang') {
+                // Kurangi jumlah barang
+                if ($keranjang['jumlah'] > 1) {
+                    $newJumlah = $keranjang['jumlah'] - 1;
+                    // Kembalikan stok barang
+                    $newStok = $barang['stok'] + 1;
+                    $this->barangModel->update($barang['kd_barang'], ['stok' => $newStok]);
+                    // Update jumlah barang di keranjang
+                    $this->keranjangModel->update($idKeranjang, ['jumlah' => $newJumlah]);
+                    return redirect()->to('pelangganctrl/keranjang')->with('success', 'Jumlah barang berkurang.');
+                } else {
+                    return redirect()->to('pelangganctrl/keranjang')->with('error', 'Jumlah barang tidak bisa kurang dari 1.');
+                }
+            }
+        } else {
+            return redirect()->to('pelangganctrl/keranjang')->with('error', 'Barang tidak ditemukan.');
+        }
+    } else {
+        return redirect()->to('pelangganctrl/keranjang')->with('error', 'Keranjang tidak ditemukan.');
+    }
+}
+
 
 public function prosesPembayaran()
 {
@@ -235,7 +296,7 @@ public function prosesPembayaran()
     $keranjangModel = new KeranjangModel();
     $keranjang = $keranjangModel->getKeranjangByUser($idPelanggan);
 
-    // Simpan data ke tabel pembayaran_detail
+    // Simpan data ke tabel pembayaran_detail dan kurangi stok barang
     $pembayaranDetailModel = new PembayaranDetailModel();
     foreach ($keranjang as $item) {
         $pembayaranDetailModel->save([
@@ -244,6 +305,13 @@ public function prosesPembayaran()
             'jumlah' => $item['jumlah'],
             'subtotal' => $item['jumlah'] * $item['harga_barang']
         ]);
+
+        // Ambil barang dan kurangi stok
+        $barang = $this->barangModel->find($item['kd_barang']);
+        if ($barang) {
+            $newStok = $barang['stok'] - $item['jumlah']; // Kurangi stok berdasarkan jumlah yang dibeli
+            $this->barangModel->update($item['kd_barang'], ['stok' => $newStok]);
+        }
     }
 
     // Hapus data keranjang setelah pembayaran berhasil
@@ -251,6 +319,7 @@ public function prosesPembayaran()
 
     return redirect()->to('/pelangganctrl/suksesPembayaran')->with('success', 'Pembayaran berhasil dilakukan.');
 }
+
 
 
 
@@ -403,7 +472,7 @@ public function updateStatus($id)
     $transaksi->update($id, ['status' => 'diterima']);
 
     // Redirect kembali ke halaman barang dikirim
-    return redirect()->to('/pelangganctrl/barang_dikirim')->with('success', 'Status berhasil diperbarui menjadi Diterima');
+    return redirect()->to('/pelangganctrl/barang_dikirim')->with('success', 'Terimakasih atas pembelian anda, semoga tidak mengecewakan');
 }
 
 

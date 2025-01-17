@@ -2,38 +2,19 @@
 
 <?= $this->section('judul')?>
 DETAIL BARANG
-<?= $this->endSection('judul')?>
-
-<?= $this->section('isi')?>
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <img src="<?= base_url('upload/' . $barang['foto']) ?>" alt="<?= $barang['nama_barang'] ?>" class="img-fluid">
         </div>
         <div class="col-md-6">
             <h2><?= $barang['nama_barang'] ?></h2>
             <p>Kode Barang: <?= $barang['kd_barang'] ?></p>
-            <p>Harga: <?= number_format($barang['harga_barang'], 0, ',', '.') ?> IDR</p>
+            <p>Harga: Rp. <?= number_format($barang['harga_barang'], 0, ',', '.') ?></p>
             <p>Stok: <?= $barang['stok'] ?> Unit</p>
             <p>Deskripsi: <?= $barang['deskripsi'] ?></p>
-
-            <div class="d-flex align-items-center justify-content-between mt-4">
-                <div class="input-group product-qty">
-                    <span class="input-group-btn">
-                        <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">
-                            <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
-                        </button>
-                    </span>
-                    <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
-                    <span class="input-group-btn">
-                        <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
-                            <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
-                        </button>
-                    </span>
-                </div>
-            </div>
-
+            
             <!-- button tambah keranjang -->
             <?php if (session()->has('user_id')) : ?>
     <!-- Form tambah ke keranjang untuk pengguna yang sudah login -->
@@ -48,4 +29,9 @@ DETAIL BARANG
         </div>
     </div>
 </div>
+<?= $this->endSection('judul')?>
+
+<?= $this->section('isi')?>
+
+
 <?= $this->endSection('isi')?>

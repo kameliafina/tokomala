@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\BarangModel;
 use App\Models\TransaksiModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -17,7 +18,30 @@ class AdminCtrl extends BaseController
             return redirect()->to('/login');
         }
 
-        return view('main/layout');
+        $barang = new BarangModel;
+        $ambil = $barang->findAll();
+        $jumlahbarang = $barang->selectSum('stok')->get()->getRow()->stok;
+
+        // Hitung total pendapatan
+        $transaksi = new TransaksiModel();
+        $totalPendapatan = $transaksi->selectSum('total_bayar')->get()->getRow()->total_bayar;
+        $jumlahDikemas = $transaksi->where('status', 'dikemas')->countAllResults();
+        $jumlahDikirim = $transaksi->where('status', 'dikirim')->countAllResults();
+        $jumlahDiterima = $transaksi->where('status', 'diterima')->countAllResults();
+
+        // var_dump($ambil);
+        // die();
+
+        $data = [
+            'databarang' => $ambil,
+            'jumlahbarang' => $jumlahbarang,
+            'totalPendapatan' => $totalPendapatan,
+            'jumlahDikemas' => $jumlahDikemas,
+            'jumlahDiterima' => $jumlahDiterima,
+            'jumlahDikirim' => $jumlahDikirim
+        ];
+
+        return view('main/chart', $data);
     }
 
     public function addUserForm()
