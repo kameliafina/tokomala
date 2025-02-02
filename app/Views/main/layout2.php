@@ -235,10 +235,10 @@
                       <a href="<?= site_url('/pelangganctrl/databarang2') ?>" class="nav-link">Belanja</a>
                     </li>
                     <li class="nav-item">
-                      <a href="#accessories" class="nav-link">Kritik Saran</a>
+                      <a href="#kritik" class="nav-link">Kritik Saran</a>
                     </li>
                     <li class="nav-item">
-                      <a href="#brand" class="nav-link">About Us</a>
+                      <a href="#tentang" class="nav-link">About Us</a>
                     </li>
                   </ul>
                 
@@ -343,7 +343,7 @@
     <section class="py-5">
       <div class="container-fluid">
 
-      <div class="bg-secondary py-5 my-5 rounded-5" style="background: url('<?= base_url('asset-pelanggan/images/bg-leaves-img-pattern.png') ?>') no-repeat;">
+      <div id="kritik" class="bg-secondary py-5 my-5 rounded-5" style="background: url('<?= base_url('asset-pelanggan/images/bg-leaves-img-pattern.png') ?>') no-repeat;">
     <div class="container my-5">
         <div class="row">
             <div class="col-md-6 p-5">
@@ -397,7 +397,7 @@
     <section class="py-5 my-5">
       <div class="container-fluid">
 
-        <div class="bg-warning py-5 rounded-5" style="background-image: url('<?php echo base_url('asset-pelanggan') ?>/images/bg-pattern-2.png') no-repeat;">
+        <div id="tentang" class="bg-warning py-5 rounded-5" style="background-image: url('<?php echo base_url('asset-pelanggan') ?>/images/bg-pattern-2.png') no-repeat;">
           <div class="container">
             <div class="row">
               <div class="col-md-7">
