@@ -33,24 +33,24 @@
             <!-- Gambar 1 -->
             <div class="banner-ad bg-success-subtle block-2" style="background:url('<?php echo base_url('asset-pelanggan') ?>/images/PRO17.png') no-repeat;background-position: center;background-size: cover; height: 250px; flex: 1;">
               <div class="banner-content p-4" style="position: absolute; bottom: 10px;">
-                <h3 class="banner-title">Peralatan Dapur</h3>
-                <a href="#" class="d-flex align-items-center nav-link">Belanja Sekarang <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
+                <h3 class="banner-title">Berbagai macam Peralatan Dapur</h3>
+                <a href="<?= site_url('/pelangganctrl/databarang2') ?>" class="d-flex align-items-center nav-link">Belanja Sekarang <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
               </div>
             </div>
 
             <!-- Gambar 2 -->
             <div class="banner-ad bg-success-subtle block-3" style="background:url('<?php echo base_url('asset-pelanggan') ?>/images/PRO5.png') no-repeat;background-position: center;background-size: cover; height: 250px; flex: 1;">
               <div class="banner-content p-4" style="position: absolute; bottom: 10px;">
-                <h3 class="banner-title">Fruits & Vegetables</h3>
-                <a href="#" class="d-flex align-items-center nav-link">Shop Collection <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
+                <h3 class="banner-title">Berbagai macam kebutuhan anak</h3>
+                <a href="<?= site_url('/pelangganctrl/databarang2') ?>" class="d-flex align-items-center nav-link">Belanja Sekarang <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
               </div>
             </div>
 
             <!-- Gambar 3 -->
             <div class="banner-ad bg-danger block-4" style="background:url('<?php echo base_url('asset-pelanggan') ?>/images/pro6.png') no-repeat;background-position: center;background-size: cover; height: 250px; flex: 1;">
               <div class="banner-content p-4" style="position: absolute; bottom: 10px;">
-                <h3 class="item-title">Baked Products</h3>
-                <a href="#" class="d-flex align-items-center nav-link">Shop Collection <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
+                <h3 class="item-title">Berbagai macam alat kebersihan</h3>
+                <a href="<?= site_url('/pelangganctrl/databarang2') ?>" class="d-flex align-items-center nav-link">Belanja Sekarang <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
               </div>
             </div>
           </div>

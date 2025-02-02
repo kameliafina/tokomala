@@ -1,3 +1,10 @@
+<?= $this->extend('main/layout2')?>
+
+<?= $this->section('judul')?>
+PERALATAN DAPUR
+<?= $this->endSection('judul')?>
+
+<?= $this->section('isi')?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,3 +19,4 @@
     <a href="<?= site_url('/pelangganctrl/index') ?>">Kembali ke Home</a>
 </body>
 </html>
+<?= $this->endSection('isi')?>

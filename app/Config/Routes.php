@@ -54,6 +54,8 @@ $routes->get('/pelangganctrl/detail_dikirim/(:num)', 'PelangganCtrl::detail_diki
 $routes->get('/pelangganctrl/updateStatus/(:num)', 'PelangganCtrl::updateStatus/$1');
 $routes->get('/pelangganctrl/detail/(:segment)', 'PelangganCtrl::detail/$1');
 $routes->post('/pelangganctrl/tampildetail', 'PelangganCtrl::tampildetail');
+$routes->get('/pelangganctrl/barang_diterima', 'PelangganCtrl::barang_diterima');
+$routes->get('/pelangganctrl/detail_diterima/(:num)', 'PelangganCtrl::detail_diterima/$1');
 
 
 $routes->get('hash-passwords', 'SetupCtrl::hashPasswords');

@@ -521,4 +521,53 @@ public function tampildetail()
     }
 }
 
+public function barang_diterima()
+{
+    // Pastikan pengguna sudah login
+    if (!session()->has('user_id')) {
+        return redirect()->to('/login')->with('error', 'Harap login terlebih dahulu.');
+    }
+
+    $userId = session()->get('user_id'); // Ambil ID user dari session
+    $transaksiModel = new TransaksiModel();
+
+    // Ambil data transaksi dengan status "dikemas" dan user_id sesuai
+    $ambil = $transaksiModel->where('status', 'diterima')
+                            ->where('user_id', $userId)
+                            ->findAll();
+
+    $data = [
+        'datatransaksi' => $ambil
+    ];
+
+    return view('pelanggan/barang_diterima', $data);
+}
+
+public function detail_diterima($id)
+{
+    $transaksi = new TransaksiModel();
+
+    // Gabungkan data dari `transaksi`, `pembayaran_detail`, `barang`, dan `pengiriman`
+    $detail = $transaksi
+        ->select('transaksi.*, 
+                  pembayaran_detail.kd_barang, 
+                  pembayaran_detail.jumlah, 
+                  pembayaran_detail.subtotal, 
+                  barang.nama_barang, 
+                  barang.foto, 
+                  pengiriman.jasa_pengiriman, 
+                  pengiriman.biaya_pengiriman')
+        ->join('pembayaran_detail', 'pembayaran_detail.id_pembayaran = transaksi.id')
+        ->join('barang', 'barang.kd_barang = pembayaran_detail.kd_barang') 
+        ->join('pengiriman', 'pengiriman.id = transaksi.id_pengiriman') // Join ke tabel pengiriman
+        ->where('transaksi.id', $id)
+        ->findAll();
+
+    $data = [
+        'detailtransaksi' => $detail
+    ];
+
+    return view('pelanggan/detail_diterima', $data);
+}
+
 }
