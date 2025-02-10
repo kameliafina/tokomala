@@ -1,5 +1,8 @@
 <head>
     <link href="<?php echo base_url('asset-tambahan') ?>/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <section class="vh-100">
@@ -41,6 +44,33 @@
             </div>
         </div>
     </div>
+
+
+    <?php if (session()->getFlashdata('success')): ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Login Berhasil!',
+            text: '<?= session()->getFlashdata('success'); ?>',
+            showConfirmButton: false,
+            timer: 2000
+        }).then(() => {
+            window.location.href = "<?= base_url('dashboard'); ?>"; // Redirect ke dashboard setelah login
+        });
+    </script>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('error')): ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Login Gagal!',
+            text: '<?= session()->getFlashdata('error'); ?>',
+            showConfirmButton: true
+        });
+    </script>
+<?php endif; ?>
+
 </section>
 
 

@@ -16,34 +16,39 @@ class LoginCtrl extends Controller
     {
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
-
+    
+        // Validasi email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return redirect()->to('/login')->with('error', 'Format email tidak valid!');
+        }
+    
+        // Validasi password: harus kombinasi angka dan huruf
+        if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/', $password)) {
+            return redirect()->to('/login')->with('error', 'Password harus kombinasi huruf dan angka!');
+        }
+    
         // Verifikasi kredensial pengguna
         $userModel = new UserModel();
         $user = $userModel->where('email', $email)->first();
-
-if ($user && password_verify($password, $user['password'])) {
-    log_message('debug', 'Role from database: ' . $user['role']); // Cek role yang diambil dari DB
-
-    session()->set([
-        'user_id' => $user['id'],
-        'email' => $user['email'],
-        'role' => $user['role']
-    ]);
-
-
-            
-
+    
+        if ($user && password_verify($password, $user['password'])) {
+            session()->set([
+                'user_id' => $user['id'],
+                'email' => $user['email'],
+                'role' => $user['role']
+            ]);
+    
             if ($user['role'] == 'admin') {
                 return redirect()->to('/adminctrl/index');
             } else {
                 return redirect()->to('/pelangganctrl/index');
             }
-            
         } else {
-            // Jika login gagal
-            return redirect()->to('/login')->with('error', 'Invalid credentials');
+            return redirect()->to('/login')->with('error', 'Email atau Password salah!');
         }
     }
+    
+
 
     public function logout()
     {
@@ -59,31 +64,42 @@ if ($user && password_verify($password, $user['password'])) {
 
 public function registerSubmit()
 {
-    // Ambil data input dari formulir
     $email = $this->request->getPost('email');
     $password = $this->request->getPost('password');
-    $confirmPassword = $this->request->getPost('confirm_password');
+    $confirm_password = $this->request->getPost('confirm_password');
 
-    // Validasi input
-    if (!$email || !$password || !$confirmPassword) {
-        return redirect()->to('/register')->with('error', 'Semua field wajib diisi!');
+    // Validasi email harus format email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return redirect()->to('/register')->with('error', 'Format email tidak valid!');
     }
 
-    if ($password !== $confirmPassword) {
-        return redirect()->to('/register')->with('error', 'Password tidak cocok!');
+    // Validasi password: harus kombinasi huruf dan angka, minimal 6 karakter
+    if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/', $password)) {
+        return redirect()->to('/register')->with('error', 'Password harus minimal 6 karakter dan kombinasi huruf serta angka!');
     }
 
-    // Simpan user baru dengan role 'customer'
-    $userModel = new UserModel();
-    $userModel->save([
+    // Validasi kecocokan password
+    if ($password !== $confirm_password) {
+        return redirect()->to('/register')->with('error', 'Password dan Konfirmasi Password tidak cocok!');
+    }
+
+    $userModel = new \App\Models\UserModel();
+    $existingUser = $userModel->where('email', $email)->first();
+
+    if ($existingUser) {
+        return redirect()->to('/register')->with('error', 'Email sudah digunakan, coba email lain.');
+    }
+
+    $userModel->insert([
         'email' => $email,
-        'password' => password_hash($password, PASSWORD_DEFAULT), // Hash password
-        'role' => 'customer'
+        'password' => password_hash($password, PASSWORD_DEFAULT),
     ]);
 
-    // Redirect ke halaman login
-    return redirect()->to('/login')->with('success', 'Registrasi berhasil! Silakan login.');
+    return redirect()->to('/register')->with('success', 'Akun berhasil dibuat! Silakan login.');
 }
+
+
+
 
 
 }
